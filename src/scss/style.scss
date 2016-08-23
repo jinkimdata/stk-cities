@@ -8,6 +8,93 @@
 @import "normalize";
 @import "fonts";
 
+$cubeSize: 16%;
+
+.stkCities {
+	max-width: 800px;
+	margin: 0 auto;
+	// border: 1px solid blue;
+	* {
+		// border: 1px solid red;
+	}
+	h2 {
+		margin: 0.5em 0em;
+		font-family: "franklin-gothic-urw";
+		font-size: 26pt;
+		font-weight: 700;
+		text-transform: uppercase;
+		span {
+			color: $stkRed;
+		}
+	}
+	.chatter {
+		font-family: "franklin-gothic-urw";
+		font-size: 14pt;
+		font-weight: 700;
+		color: $stkDarkGray;
+	}
+	.graphic {
+		position: relative;
+	}
+	.cities {
+		position: relative;
+		height: 400px;
+		overflow-y: scroll;
+		z-index: 1;
+	};
+	.cityOutline {
+		width: $cubeSize;
+		height: 0;
+		border-right: 2px solid black;
+		padding-bottom: $cubeSize;
+		img {
+			width: 100%;
+		}
+	};
+	h3 {
+		position: absolute;
+		top: 0;
+		width: 100%;
+		height: 0;
+		padding-top: $cubeSize / 2;
+		padding-bottom: $cubeSize / 2;
+		padding-left: $cubeSize + 3%;
+		margin: 0;
+		line-height: 0;
+		border-bottom: 2px solid black;
+		font-family: $prata;
+		font-size: 4em;
+	}
+	.cityStats {
+		position: absolute;
+		top: 0;
+		width: 100%;
+		padding-top: $cubeSize;
+		padding-left: $cubeSize + 1%;
+		p {
+	 		font-family: "franklin-gothic-urw";
+			font-weight: 700;
+			font-size: 1.5em;
+			margin: 0.5em 0;
+			text-align: right;
+		}
+	}
+	.statList {
+		width: 48%;
+		float: left;
+	}
+	.graph {
+		width: 48%;
+		float: right;
+	}
+	h4 {
+	  text-align: center;
+	  font-family: "franklin-gothic-urw";
+	  font-weight: 700;
+	  font-size: 2em;
+	  margin: 0.5em 0;
+	}
+}
 
 /* Leaderboard */
 // #leaderboard {

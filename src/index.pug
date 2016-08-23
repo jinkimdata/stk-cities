@@ -23,40 +23,44 @@ html(class="no-js", lang="en")
 		meta(name="description", content="")
 		meta(name="author", content="") 
 		meta(name="viewport", content="width=device-width, initial-scale=1, maximum-scale=1")
-		link(rel="stylesheet", type="text/css", href="#{datalink}css/style.css")
-		link(rel="stylesheet", type="text/css", href="http://fonts.googleapis.com/css?family=Old+Standard+TT|Lato|Montserrat")
-
-		//Facebook Stuff
-		meta(property="og:title", content="")
-		meta(property="og:url", content="")
-		meta(property="og:image", content="")
-		meta(property="og:site_name", content="The Baltimore Sun")
-		meta(property="og:description", content="")
-		meta(property="fb:app_id", content="310302989040998")
-		//Twitter Stuff
-		meta(name="twitter:card", content="summary")
-		meta(name="twitter:site", content="@baltimoresun")
-		meta(name="twitter:creator", content="")
-		meta(name="twitter:title", content="")
-		meta(name="twitter:description", content="")
-		meta(name="twitter:image", content="")
-		meta(name="twitter:domain", content="baltimoresun.com")
-
-		//- Ad tag, uncomment to put in ad
-		//- include includes/ad-for-header.html
-		
+		script(src="https://use.typekit.net/nta3eyd.js")
+		script.
+			try{Typekit.load({ async: true });}catch(e){}
+		link(rel="stylesheet", type="text/css", href="http://fonts.googleapis.com/css?family=Prata")
+		link(rel="stylesheet", type="text/css", href=datalink + "css/style.css")
 	body
-		//- This omniture file will also add a topnav.
-		//- include includes/omniture.html
-		
-		.container
+		.stkCities
+			h2 Lethality rates 
+				span across the United States
+			p.chatter Baltimore is among the most lethal cities in the country. See how we compare to other major cities below.
+			.graphic
+				.cities
+					.cityOutline
+						img(src=datalink + "images/md.png")
+					.cityOutline
+						img(src=datalink + "images/md.png")
+					.cityOutline
+						img(src=datalink + "images/md.png")
+					.cityOutline
+						img(src=datalink + "images/md.png")
+					.cityOutline
+						img(src=datalink + "images/md.png")
+					.cityOutline
+						img(src=datalink + "images/md.png")
+					.cityOutline
+					.cityOutline
+				h3.city Baltimore
+				.cityStats
+					.statList
+						h4 2015 statistics
+						p Non-fatal shootings // 123
+						p Fatal shootings // 456
+						p Fatal : non-fatal ratio // .78
+					.graph
+						h4 Ratio over time
 
-		//- Ad tag, uncomment to put in ad
-		//- #leaderboard			
-		//- 	include includes/ad-for-body.html
 		
 		//Javascript
-		script(src="#{datalink}js/min/jquery-3.0.0.min.js")
-		script(src="#{datalink}js/app.js")
-		//- script(src="#{datalink}js/app.min.js")
+		script(src=datalink + "js/app.js")
+		//- script(src=datalink + "js/app.min.js")
 		
