@@ -41,17 +41,27 @@ $cubeSize: 16%;
 		height: 400px;
 		overflow-y: scroll;
 		z-index: 1;
-	};
+	}
 	.cityOutline {
 		width: $cubeSize;
 		height: 0;
 		border-right: 2px solid black;
 		padding-bottom: $cubeSize;
 		img {
+			opacity: .5;
 			width: 100%;
 		}
-	};
-	h3 {
+		@include transition(all 1s ease);
+	}
+	.cityOutline--blank {
+		padding-bottom: $cubeSize * 2;
+	}
+	.activeCity {
+		img {
+			opacity: 1;
+		}
+	}
+	.cityNameBlock {
 		position: absolute;
 		top: 0;
 		width: 100%;
@@ -59,9 +69,11 @@ $cubeSize: 16%;
 		padding-top: $cubeSize / 2;
 		padding-bottom: $cubeSize / 2;
 		padding-left: $cubeSize + 3%;
+		border-bottom: 2px solid black;
+	}
+	.cityName {
 		margin: 0;
 		line-height: 0;
-		border-bottom: 2px solid black;
 		font-family: $prata;
 		font-size: 4em;
 	}

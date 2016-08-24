@@ -2954,24 +2954,39 @@ var stkCities = {
         stkCities.citiesScrollSnap();
     },
     citiesScrollSnap: function() {
-        var cities = $(".cityOutline");
+        var scrollDiv = $(".stkCities .cities");
+        var cityWidth = $(".cityOutline--0").width();
         var animating = false;
-        $(window).scroll(function() {
+        var cities = $(".cityOutline");
+        var currCity, newCity, currCityPos, newCityPos, cityNum;
+        var cityNames = [ "Baltimore", "Milwaukee", "Chicago", "Los Angeles", "New York", "Detroit" ];
+        scrollDiv.on("scroll", function() {
             clearTimeout($.data(this, "scrollTimer"));
             if (!animating) {
+                $(".activeCity").removeClass("activeCity");
                 $.data(this, "scrollTimer", setTimeout(function() {
+                    animating = true;
+                    scrollDiv.animate({
+                        scrollTop: Math.round(scrollDiv.scrollTop() / cityWidth) * cityWidth + "px"
+                    }, 250);
+                    setTimeout(function() {
+                        animating = false;
+                    }, 300);
                     cities.each(function(key, value) {
-                        if ($(value).offset().top > $(window).scrollTop()) {
-                            animating = true;
-                            $("body").animate({
-                                scrollTop: $(value).offset().top + "px"
-                            }, 250);
-                            setTimeout(function() {
-                                animating = false;
-                            }, 300);
-                            return false;
+                        newCity = $(value);
+                        currCityPos = newCityPos;
+                        newCityPos = Math.abs($(value).position().top);
+                        if (newCityPos < currCityPos) {
+                            currCity = newCity;
                         }
                     });
+                    currCity.addClass("activeCity");
+                    cityNum = currCity.attr("data-city");
+                    $(".cityName").fadeOut("fast", function() {
+                        $(this).text(cityNames[cityNum]);
+                        $(this).fadeIn();
+                    });
+                    return false;
                 }, 200));
             }
         });

@@ -488,10 +488,18 @@ th {
     width: 16%;
     height: 0;
     border-right: 2px solid black;
-    padding-bottom: 16%; }
+    padding-bottom: 16%;
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    transition: all 1s ease; }
     .stkCities .cityOutline img {
+      opacity: .5;
       width: 100%; }
-  .stkCities h3 {
+  .stkCities .cityOutline--blank {
+    padding-bottom: 32%; }
+  .stkCities .activeCity img {
+    opacity: 1; }
+  .stkCities .cityNameBlock {
     position: absolute;
     top: 0;
     width: 100%;
@@ -499,9 +507,10 @@ th {
     padding-top: 8%;
     padding-bottom: 8%;
     padding-left: 19%;
+    border-bottom: 2px solid black; }
+  .stkCities .cityName {
     margin: 0;
     line-height: 0;
-    border-bottom: 2px solid black;
     font-family: "Prata", sans-serif;
     font-size: 4em; }
   .stkCities .cityStats {

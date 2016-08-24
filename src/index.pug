@@ -35,21 +35,21 @@ html(class="no-js", lang="en")
 			p.chatter Baltimore is among the most lethal cities in the country. See how we compare to other major cities below.
 			.graphic
 				.cities
-					.cityOutline
+					.cityOutline.cityOutline--0.activeCity(data-city="0")
 						img(src=datalink + "images/md.png")
-					.cityOutline
+					.cityOutline.cityOutline--1(data-city="1")
 						img(src=datalink + "images/md.png")
-					.cityOutline
+					.cityOutline.cityOutline--2(data-city="2")
 						img(src=datalink + "images/md.png")
-					.cityOutline
+					.cityOutline.cityOutline--3(data-city="3")
 						img(src=datalink + "images/md.png")
-					.cityOutline
+					.cityOutline.cityOutline--4(data-city="4")
 						img(src=datalink + "images/md.png")
-					.cityOutline
+					.cityOutline.cityOutline--5(data-city="5")
 						img(src=datalink + "images/md.png")
-					.cityOutline
-					.cityOutline
-				h3.city Baltimore
+					.cityOutline.cityOutline--blank(data-city="blank")
+				.cityNameBlock
+					h3.cityName Baltimore
 				.cityStats
 					.statList
 						h4 2015 statistics
