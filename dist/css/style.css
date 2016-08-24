@@ -467,36 +467,43 @@ th {
   .stkCities h2 {
     margin: 0.5em 0em;
     font-family: "franklin-gothic-urw";
-    font-size: 26pt;
+    font-size: 26px;
     font-weight: 700;
     text-transform: uppercase; }
     .stkCities h2 span {
       color: #bb0a1e; }
   .stkCities .chatter {
     font-family: "franklin-gothic-urw";
-    font-size: 14pt;
+    font-size: 14px;
     font-weight: 700;
     color: #555555; }
   .stkCities .graphic {
-    position: relative; }
+    position: relative;
+    font-size: 14px; }
+    @media (max-width: 700px) {
+      .stkCities .graphic {
+        font-size: 12px; } }
+    @media (max-width: 600px) {
+      .stkCities .graphic {
+        font-size: 10px; } }
   .stkCities .cities {
     position: relative;
-    height: 400px;
+    height: 25em;
     overflow-y: scroll;
     z-index: 1; }
   .stkCities .cityOutline {
-    width: 16%;
+    width: 15%;
     height: 0;
-    border-right: 2px solid black;
-    padding-bottom: 16%;
+    border-right: .2em solid black;
+    padding-bottom: 15%;
     -webkit-transition: all 1s ease;
     -moz-transition: all 1s ease;
     transition: all 1s ease; }
     .stkCities .cityOutline img {
-      opacity: .5;
+      opacity: .2;
       width: 100%; }
   .stkCities .cityOutline--blank {
-    padding-bottom: 32%; }
+    padding-bottom: 60%; }
   .stkCities .activeCity img {
     opacity: 1; }
   .stkCities .cityNameBlock {
@@ -504,10 +511,10 @@ th {
     top: 0;
     width: 100%;
     height: 0;
-    padding-top: 8%;
-    padding-bottom: 8%;
-    padding-left: 19%;
-    border-bottom: 2px solid black; }
+    padding-top: 7.5%;
+    padding-bottom: 7.5%;
+    padding-left: 18%;
+    border-bottom: .2em solid black; }
   .stkCities .cityName {
     margin: 0;
     line-height: 0;
@@ -517,20 +524,25 @@ th {
     position: absolute;
     top: 0;
     width: 100%;
-    padding-top: 16%;
-    padding-left: 17%; }
+    padding-top: 15%;
+    padding-left: 16%; }
     .stkCities .cityStats p {
       font-family: "franklin-gothic-urw";
       font-weight: 700;
       font-size: 1.5em;
-      margin: 0.5em 0;
-      text-align: right; }
+      margin: 0.5em 0; }
   .stkCities .statList {
     width: 48%;
     float: left; }
+    @media (max-width: 500px) {
+      .stkCities .statList {
+        width: 100%; } }
   .stkCities .graph {
     width: 48%;
     float: right; }
+    @media (max-width: 500px) {
+      .stkCities .graph {
+        display: none; } }
   .stkCities h4 {
     text-align: center;
     font-family: "franklin-gothic-urw";

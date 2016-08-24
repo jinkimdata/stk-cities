@@ -2951,41 +2951,50 @@
 
 var stkCities = {
     init: function() {
-        stkCities.citiesScrollSnap();
+        stkCities.scrollSnap(".stkCities .cities", ".cityOutline");
     },
-    citiesScrollSnap: function() {
-        var scrollDiv = $(".stkCities .cities");
-        var cityWidth = $(".cityOutline--0").width();
-        var animating = false;
-        var cities = $(".cityOutline");
-        var currCity, newCity, currCityPos, newCityPos, cityNum;
+    populateNewCity: function(cityNum) {
+        var currCity = $(".cityOutline--" + cityNum);
         var cityNames = [ "Baltimore", "Milwaukee", "Chicago", "Los Angeles", "New York", "Detroit" ];
+        $(".activeCity").removeClass("activeCity");
+        currCity.addClass("activeCity");
+        cityNum = currCity.attr("data-city");
+        $(".cityName").fadeOut("fast", function() {
+            $(this).text(cityNames[cityNum]);
+            $(this).fadeIn();
+        });
+        return false;
+    },
+    scrollSnap: function(scrollDivClass, childDivClass) {
+        var scrollDiv = $(scrollDivClass);
+        var childDivs = $(childDivClass);
+        var childDivWidth = $(childDivs[0]).width();
+        var animating = false;
+        var currDiv, newDiv, currDivPos, newDivPos, divNum;
+        var resizeId;
+        $(window).resize(function() {
+            clearTimeout(resizeId);
+            resizeId = setTimeout(doneResizing, 500);
+        });
+        function doneResizing() {
+            childDivWidth = $(childDivs[0]).width();
+        }
         scrollDiv.on("scroll", function() {
             clearTimeout($.data(this, "scrollTimer"));
             if (!animating) {
-                $(".activeCity").removeClass("activeCity");
                 $.data(this, "scrollTimer", setTimeout(function() {
                     animating = true;
+                    divNum = Math.round(scrollDiv.scrollTop() / childDivWidth);
+                    if (divNum > 5) {
+                        divNum = 5;
+                    }
                     scrollDiv.animate({
-                        scrollTop: Math.round(scrollDiv.scrollTop() / cityWidth) * cityWidth + "px"
+                        scrollTop: divNum * childDivWidth + "px"
                     }, 250);
                     setTimeout(function() {
                         animating = false;
                     }, 300);
-                    cities.each(function(key, value) {
-                        newCity = $(value);
-                        currCityPos = newCityPos;
-                        newCityPos = Math.abs($(value).position().top);
-                        if (newCityPos < currCityPos) {
-                            currCity = newCity;
-                        }
-                    });
-                    currCity.addClass("activeCity");
-                    cityNum = currCity.attr("data-city");
-                    $(".cityName").fadeOut("fast", function() {
-                        $(this).text(cityNames[cityNum]);
-                        $(this).fadeIn();
-                    });
+                    stkCities.populateNewCity(divNum);
                     return false;
                 }, 200));
             }

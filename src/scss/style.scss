@@ -8,7 +8,7 @@
 @import "normalize";
 @import "fonts";
 
-$cubeSize: 16%;
+$cubeSize: 15%;
 
 .stkCities {
 	max-width: 800px;
@@ -20,7 +20,7 @@ $cubeSize: 16%;
 	h2 {
 		margin: 0.5em 0em;
 		font-family: "franklin-gothic-urw";
-		font-size: 26pt;
+		font-size: 26px;
 		font-weight: 700;
 		text-transform: uppercase;
 		span {
@@ -29,32 +29,39 @@ $cubeSize: 16%;
 	}
 	.chatter {
 		font-family: "franklin-gothic-urw";
-		font-size: 14pt;
+		font-size: 14px;
 		font-weight: 700;
 		color: $stkDarkGray;
 	}
 	.graphic {
 		position: relative;
+		font-size: 14px;
+		@media(max-width: 700px) {
+			font-size: 12px;
+		}
+		@media(max-width: 600px) {
+			font-size: 10px;
+		}
 	}
 	.cities {
 		position: relative;
-		height: 400px;
+		height: 25em;
 		overflow-y: scroll;
 		z-index: 1;
 	}
 	.cityOutline {
 		width: $cubeSize;
 		height: 0;
-		border-right: 2px solid black;
+		border-right: .2em solid black;
 		padding-bottom: $cubeSize;
 		img {
-			opacity: .5;
+			opacity: .2;
 			width: 100%;
 		}
 		@include transition(all 1s ease);
 	}
 	.cityOutline--blank {
-		padding-bottom: $cubeSize * 2;
+		padding-bottom: $cubeSize * 4;
 	}
 	.activeCity {
 		img {
@@ -69,7 +76,7 @@ $cubeSize: 16%;
 		padding-top: $cubeSize / 2;
 		padding-bottom: $cubeSize / 2;
 		padding-left: $cubeSize + 3%;
-		border-bottom: 2px solid black;
+		border-bottom: .2em solid black;
 	}
 	.cityName {
 		margin: 0;
@@ -88,16 +95,21 @@ $cubeSize: 16%;
 			font-weight: 700;
 			font-size: 1.5em;
 			margin: 0.5em 0;
-			text-align: right;
 		}
 	}
 	.statList {
 		width: 48%;
 		float: left;
+		@media(max-width: 500px) {
+			width: 100%;
+		}
 	}
 	.graph {
 		width: 48%;
 		float: right;
+		@media(max-width: 500px) {
+			display: none;
+		}
 	}
 	h4 {
 	  text-align: center;

@@ -32,30 +32,33 @@ html(class="no-js", lang="en")
 		.stkCities
 			h2 Lethality rates 
 				span across the United States
-			p.chatter Baltimore is among the most lethal cities in the country. See how we compare to other major cities below.
+			p.chatter Baltimore is among the most lethal cities in the country. See how it compares to other major cities below.
 			.graphic
 				.cities
 					.cityOutline.cityOutline--0.activeCity(data-city="0")
-						img(src=datalink + "images/md.png")
+						img(src=datalink + "images/0.png")
 					.cityOutline.cityOutline--1(data-city="1")
-						img(src=datalink + "images/md.png")
+						img(src=datalink + "images/1.png")
 					.cityOutline.cityOutline--2(data-city="2")
-						img(src=datalink + "images/md.png")
+						img(src=datalink + "images/2.png")
 					.cityOutline.cityOutline--3(data-city="3")
-						img(src=datalink + "images/md.png")
+						img(src=datalink + "images/3.png")
 					.cityOutline.cityOutline--4(data-city="4")
-						img(src=datalink + "images/md.png")
+						img(src=datalink + "images/4.png")
 					.cityOutline.cityOutline--5(data-city="5")
-						img(src=datalink + "images/md.png")
+						img(src=datalink + "images/5.png")
 					.cityOutline.cityOutline--blank(data-city="blank")
 				.cityNameBlock
 					h3.cityName Baltimore
 				.cityStats
 					.statList
 						h4 2015 statistics
-						p Non-fatal shootings // 123
-						p Fatal shootings // 456
-						p Fatal : non-fatal ratio // .78
+						p Non-fatal shootings // 
+							span.nonfatStat 123
+						p Fatal shootings // 
+							span.fatStat 456
+						p Fatal : non-fatal ratio // 
+							span.ratioStat .78
 					.graph
 						h4 Ratio over time
 
