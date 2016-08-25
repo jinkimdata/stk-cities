@@ -463,17 +463,23 @@ th {
 
 .stkCities {
   max-width: 800px;
-  margin: 0 auto; }
+  margin: 0 auto;
+  background-color: white;
+  color: black; }
   .stkCities h2 {
     margin: 0.5em 0em;
-    font-family: "franklin-gothic-urw";
+    font-family: " franklin-gothic-urw", sans-serif;
     font-size: 26px;
     font-weight: 700;
     text-transform: uppercase; }
     .stkCities h2 span {
       color: #bb0a1e; }
+      @media (max-width: 500px) {
+        .stkCities h2 span {
+          font-size: 22px;
+          display: block; } }
   .stkCities .chatter {
-    font-family: "franklin-gothic-urw";
+    font-family: " franklin-gothic-urw", sans-serif;
     font-size: 14px;
     font-weight: 700;
     color: #555555; }
@@ -488,23 +494,33 @@ th {
         font-size: 10px; } }
   .stkCities .cities {
     position: relative;
-    height: 25em;
     overflow-y: scroll;
-    z-index: 1; }
+    z-index: 1;
+    height: 25em; }
+    @media (max-width: 500px) {
+      .stkCities .cities {
+        height: 20em; } }
   .stkCities .cityOutline {
     width: 15%;
     height: 0;
-    border-right: .2em solid black;
+    border-right: 0.2em solid black;
     padding-bottom: 15%;
-    -webkit-transition: all 1s ease;
-    -moz-transition: all 1s ease;
-    transition: all 1s ease; }
+    text-align: center; }
+    .stkCities .cityOutline:hover {
+      cursor: pointer; }
     .stkCities .cityOutline img {
+      width: 90%;
       opacity: .2;
-      width: 100%; }
+      -webkit-transition: all 0.5s ease;
+      -moz-transition: all 0.5s ease;
+      transition: all 0.5s ease; }
+      .stkCities .cityOutline img:hover {
+        width: 100%;
+        opacity: .5; }
   .stkCities .cityOutline--blank {
     padding-bottom: 60%; }
   .stkCities .activeCity img {
+    width: 100%;
     opacity: 1; }
   .stkCities .cityNameBlock {
     position: absolute;
@@ -514,20 +530,26 @@ th {
     padding-top: 7.5%;
     padding-bottom: 7.5%;
     padding-left: 18%;
-    border-bottom: .2em solid black; }
+    border-bottom: 0.2em solid black; }
   .stkCities .cityName {
     margin: 0;
     line-height: 0;
-    font-family: "Prata", sans-serif;
+    font-family: "Prata", serif;
     font-size: 4em; }
+    @media (max-width: 500px) {
+      .stkCities .cityName {
+        font-size: 3em;
+        text-align: center; } }
   .stkCities .cityStats {
     position: absolute;
     top: 0;
     width: 100%;
     padding-top: 15%;
-    padding-left: 16%; }
+    padding-left: 16%;
+    padding-right: 3%;
+    text-align: center; }
     .stkCities .cityStats p {
-      font-family: "franklin-gothic-urw";
+      font-family: " franklin-gothic-urw", sans-serif;
       font-weight: 700;
       font-size: 1.5em;
       margin: 0.5em 0; }
@@ -539,15 +561,18 @@ th {
         width: 100%; } }
   .stkCities .graph {
     width: 48%;
-    float: right; }
+    float: right;
+    text-align: left; }
     @media (max-width: 500px) {
       .stkCities .graph {
         display: none; } }
+    .stkCities .graph img {
+      width: 100%; }
   .stkCities h4 {
-    text-align: center;
-    font-family: "franklin-gothic-urw";
+    font-family: " franklin-gothic-urw", sans-serif;
     font-weight: 700;
     font-size: 2em;
+    text-align: center;
     margin: 0.5em 0; }
 
 /* Leaderboard */

@@ -2,26 +2,12 @@ var stkCities = {
 	init: function(){
 		stkCities.scrollSnap('.stkCities .cities','.cityOutline');
 	},
-	// This function is called in scrollSnap. After the scroll function completes, populateNewCity will take
-	// in the new position in the div and repopulate the content with the new city's details.
-	populateNewCity: function(cityNum) {
-		var currCity = $('.cityOutline--'+cityNum);
-		var cityNames = ['Baltimore','Milwaukee','Chicago','Los Angeles','New York','Detroit']
-		$('.activeCity').removeClass('activeCity');			
-		currCity.addClass('activeCity');
-		cityNum = currCity.attr('data-city');
-		$('.cityName').fadeOut('fast',function(){
-			$(this).text(cityNames[cityNum]);
-			$(this).fadeIn();
-		});
-		return false;
-	},
-	// This function requires jQuery. It takes two classes as arguments, input as strings with the period in front.
-	// This function takes one vertically scrollable div that includes multiple child divs and "snaps" the scroll
-	// behavior to the nearest child div.
+	// This function requires jQuery. It takes two classes as arguments, input as strings.
+	// This function takes one vertically scrollable div that includes multiple child divs and 
+	// "snaps" the scroll behavior to the nearest child div.
 	// Right now, it is very limited to child divs of this specific style:
 	// width: $widthPct; height: 0; padding-bottom: $widthPct;
-	// Developing this further to have different child divs should not be a trememndous amount of work.
+	// Developing this further to have different child divs should not be a ton of work.
 	// I may get around to that in the near future.
 	scrollSnap: function(scrollDivClass, childDivClass) {
 		var scrollDiv = $(scrollDivClass);
@@ -29,8 +15,8 @@ var stkCities = {
 		var childDivWidth = $(childDivs[0]).width();
 		var animating = false;
 		var currDiv, newDiv, currDivPos, newDivPos, divNum;
-		// On window resize, the childDivWidth is recalculated. This is a potentially wasteful and unnecessary function
-		// that I may phase out in the future. It is a soft patch for user resizing behavior.
+		// On window resize, the childDivWidth is recalculated. This is a potentially wasteful and 
+		// unnecessary function that I may phase out in the future. It is a soft patch for now.
 		var resizeId;
 		$(window).resize(function(){
 			clearTimeout(resizeId);
@@ -40,28 +26,78 @@ var stkCities = {
 			childDivWidth = $(childDivs[0]).width();
 		};
 		// The on scroll function is set on a timeout to help reduce site load.
-		scrollDiv.on('scroll', function() {
+		scrollDiv.on('scroll', function(){
 			clearTimeout($.data(this, 'scrollTimer'));
 			if (!animating) {
 				$.data(this, 'scrollTimer', setTimeout(function() {
-					animating = true;
 					divNum = Math.round(scrollDiv.scrollTop() / childDivWidth);
-					if(divNum > 5){
-						divNum = 5;
-					};
-					scrollDiv.animate({
-						scrollTop: divNum * childDivWidth + 'px'
-					}, 250);
-					setTimeout(function() { animating = false; }, 300);
-					// On scroll end, we populate with new data from the current div.
-					stkCities.populateNewCity(divNum);
+					scrollBehavior();
 					return false;
 				}, 200));
-			}
+			};
+			return false;
 		});
+		// The on click function will actually trigger the on scroll function above because it will
+		// scroll the parent div. This isn't ideal, but the clearTimeout and animating boolean 
+		// ensures that the heavy lifting isn't done on the scroll function -- 
+		// multiple instances of the scrollBehavior will not run.
+		childDivs.on('click', function(){
+			if (!animating) {
+				divNum = $(this).data('city');
+				scrollBehavior();
+				return false;
+			};		
+			return false;
+		});
+		// The scroll behavior is broken out into a helper function to reduce bloat.
+		// Code itself is fairly self-explanatory.
+		function scrollBehavior(){
+			if(divNum > 5){
+				divNum = 5;
+			};
+			animating = true;
+			scrollDiv.animate({
+				scrollTop: divNum * childDivWidth + 'px'
+			}, 250);
+			setTimeout(function() { animating = false; }, 300);
+			// On scroll end, we populate with new data from the current div.
+			stkCities.populateNewCity(divNum);
+			return false;
+		};
+	},
+	// This function is called in scrollSnap. populateNewCity will take in the new position in the 
+	// div and repopulate the content with the new city's details. 
+	populateNewCity: function(cityNum) {
+		var currCity = $('.cityOutline--'+cityNum);
+		var cityNames = [
+			['Baltimore','300','637','0.47'],
+			['Milwaukee','59','300','0.20'],
+			['Chicago','360','1,726','0.21'],
+			['Los Angeles','164','802','0.20'],
+			['New York','234','1,138','0.21'],
+			['Washington, D.C.','123','299','0.41'],
+		];
+		$('.activeCity').removeClass('activeCity');
+		currCity.addClass('activeCity');
+		cityNum = currCity.attr('data-city');
+		$('.jsFade').fadeOut('fast',function(){
+			$('.cityName').text(cityNames[cityNum][0]);
+			$('.nonFatStat').text(cityNames[cityNum][1]);
+			$('.fatStat').text(cityNames[cityNum][2]);
+			$('.ratioStat').text(cityNames[cityNum][3]);
+			$('.graph img').attr('src','images/graph' + cityNum + '.png');
+			$(this).fadeIn();
+		});
+		return false;
 	}
-}
+};
+var stkNeighborhoods = {
+	init: function(){
+		console.log('test2');
+	},
+};
 $(document).ready(function(){
 	stkCities.init();
-	console.log("connected");
+	stkNeighborhoods.init();
+	console.log('connected');
 });

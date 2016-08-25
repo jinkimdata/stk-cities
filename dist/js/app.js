@@ -2953,18 +2953,6 @@ var stkCities = {
     init: function() {
         stkCities.scrollSnap(".stkCities .cities", ".cityOutline");
     },
-    populateNewCity: function(cityNum) {
-        var currCity = $(".cityOutline--" + cityNum);
-        var cityNames = [ "Baltimore", "Milwaukee", "Chicago", "Los Angeles", "New York", "Detroit" ];
-        $(".activeCity").removeClass("activeCity");
-        currCity.addClass("activeCity");
-        cityNum = currCity.attr("data-city");
-        $(".cityName").fadeOut("fast", function() {
-            $(this).text(cityNames[cityNum]);
-            $(this).fadeIn();
-        });
-        return false;
-    },
     scrollSnap: function(scrollDivClass, childDivClass) {
         var scrollDiv = $(scrollDivClass);
         var childDivs = $(childDivClass);
@@ -2983,26 +2971,62 @@ var stkCities = {
             clearTimeout($.data(this, "scrollTimer"));
             if (!animating) {
                 $.data(this, "scrollTimer", setTimeout(function() {
-                    animating = true;
                     divNum = Math.round(scrollDiv.scrollTop() / childDivWidth);
-                    if (divNum > 5) {
-                        divNum = 5;
-                    }
-                    scrollDiv.animate({
-                        scrollTop: divNum * childDivWidth + "px"
-                    }, 250);
-                    setTimeout(function() {
-                        animating = false;
-                    }, 300);
-                    stkCities.populateNewCity(divNum);
+                    scrollBehavior();
                     return false;
                 }, 200));
             }
+            return false;
         });
+        childDivs.on("click", function() {
+            if (!animating) {
+                divNum = $(this).data("city");
+                scrollBehavior();
+                return false;
+            }
+            return false;
+        });
+        function scrollBehavior() {
+            if (divNum > 5) {
+                divNum = 5;
+            }
+            animating = true;
+            scrollDiv.animate({
+                scrollTop: divNum * childDivWidth + "px"
+            }, 250);
+            setTimeout(function() {
+                animating = false;
+            }, 300);
+            stkCities.populateNewCity(divNum);
+            return false;
+        }
+    },
+    populateNewCity: function(cityNum) {
+        var currCity = $(".cityOutline--" + cityNum);
+        var cityNames = [ [ "Baltimore", "300", "637", "0.47" ], [ "Milwaukee", "59", "300", "0.20" ], [ "Chicago", "360", "1,726", "0.21" ], [ "Los Angeles", "164", "802", "0.20" ], [ "New York", "234", "1,138", "0.21" ], [ "Washington, D.C.", "123", "299", "0.41" ] ];
+        $(".activeCity").removeClass("activeCity");
+        currCity.addClass("activeCity");
+        cityNum = currCity.attr("data-city");
+        $(".jsFade").fadeOut("fast", function() {
+            $(".cityName").text(cityNames[cityNum][0]);
+            $(".nonFatStat").text(cityNames[cityNum][1]);
+            $(".fatStat").text(cityNames[cityNum][2]);
+            $(".ratioStat").text(cityNames[cityNum][3]);
+            $(".graph img").attr("src", "images/graph" + cityNum + ".png");
+            $(this).fadeIn();
+        });
+        return false;
+    }
+};
+
+var stkNeighborhoods = {
+    init: function() {
+        console.log("test2");
     }
 };
 
 $(document).ready(function() {
     stkCities.init();
+    stkNeighborhoods.init();
     console.log("connected");
 });
