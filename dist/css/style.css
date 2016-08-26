@@ -476,7 +476,7 @@ th {
       color: #bb0a1e; }
       @media (max-width: 500px) {
         .stkCities h2 span {
-          font-size: 22px;
+          font-size: 20px;
           display: block; } }
   .stkCities .chatter {
     font-family: " franklin-gothic-urw", sans-serif;
@@ -518,7 +518,7 @@ th {
         width: 100%;
         opacity: .5; }
   .stkCities .cityOutline--blank {
-    padding-bottom: 60%; }
+    padding-bottom: 100%; }
   .stkCities .activeCity img {
     width: 100%;
     opacity: 1; }
@@ -575,4 +575,27 @@ th {
     text-align: center;
     margin: 0.5em 0; }
 
-/* Leaderboard */
+.stkNeighborhoods {
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: white;
+  color: black; }
+  .stkNeighborhoods h2 {
+    margin: 0.5em 0em;
+    font-family: " franklin-gothic-urw", sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    text-transform: uppercase; }
+    .stkNeighborhoods h2 span {
+      color: #bb0a1e; }
+      @media (max-width: 500px) {
+        .stkNeighborhoods h2 span {
+          font-size: 20px;
+          display: block; } }
+  .stkNeighborhoods .chatter {
+    font-family: " franklin-gothic-urw", sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #555555; }
+  .stkNeighborhoods .map {
+    height: 400px; }

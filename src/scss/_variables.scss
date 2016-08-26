@@ -6,3 +6,26 @@ $stkRed: #bb0a1e;
 $stkDarkGray: #555555;
 $stkLightGray: #888888;
 $stkStroke: #d4d4d4;
+
+// Breakpoints
+$bp5: 500px;
+$bp6: 600px;
+$bp7: 700px;
+
+$cubeSize: 15%; // Size of city outline divs
+
+// Font styles
+$fontSerifMain: $prata;
+$fontSansSerifMain: $franklin;
+
+// Colors
+$colorBase: white;
+$colorTextMain: black;
+$colorTextAccent: $stkRed;
+$colorTextGray: $stkDarkGray;
+
+// Colors -- black scheme
+// $colorBase: black;
+// $colorTextMain: white;
+// $colorTextAccent: $stkRed;
+// $colorTextGray: $stkLightGray;

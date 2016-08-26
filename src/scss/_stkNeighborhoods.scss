@@ -1,0 +1,29 @@
+.stkNeighborhoods {
+	max-width: 800px;
+	margin: 0 auto;
+	background-color: $colorBase;
+	color: $colorTextMain;
+	h2 {
+		margin: 0.5em 0em;
+		font-family: $fontSansSerifMain;
+		font-size: 26px;
+		font-weight: 700;
+		text-transform: uppercase;
+		span {
+			color: $colorTextAccent;
+			@media(max-width: $bp5) {
+				font-size: 20px;
+				display: block;
+			}
+		}
+	}
+	.chatter {
+		font-family: $fontSansSerifMain;
+		font-size: 14px;
+		font-weight: 700;
+		color: $colorTextGray;
+	}
+	.map {
+		height: 400px;
+	}
+}
