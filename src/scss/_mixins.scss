@@ -40,5 +40,9 @@
 }
 
 @mixin striped-background($angle, $width, $color1, $color2) {
-	background: repeating-linear-gradient($angle, $color1, $color1 $width, $color2 $width, $color2 $width*2);
+	background: repeating-linear-gradient(
+		$angle, $color1, 
+		$color1 $width, 
+		$color2 $width, 
+		$color2 $width*2);
 }

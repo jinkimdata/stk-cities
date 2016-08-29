@@ -465,7 +465,7 @@ th {
   max-width: 800px;
   margin: 0 auto;
   background-color: white;
-  color: black; }
+  color: #0d0d0d; }
   .stkCities h2 {
     margin: 0.5em 0em;
     font-family: " franklin-gothic-urw", sans-serif;
@@ -495,15 +495,17 @@ th {
   .stkCities .cities {
     position: relative;
     overflow-y: scroll;
+    overflow: auto;
     z-index: 1;
-    height: 25em; }
+    height: 25em;
+    padding-right: 20px; }
     @media (max-width: 500px) {
       .stkCities .cities {
-        height: 20em; } }
+        height: 18em; } }
   .stkCities .cityOutline {
     width: 15%;
     height: 0;
-    border-right: 0.2em solid black;
+    border-right: 0.1em solid #888888;
     padding-bottom: 15%;
     text-align: center; }
     .stkCities .cityOutline:hover {
@@ -516,9 +518,12 @@ th {
       transition: all 0.5s ease; }
       .stkCities .cityOutline img:hover {
         width: 100%;
-        opacity: .5; }
-  .stkCities .cityOutline--blank {
-    padding-bottom: 100%; }
+        opacity: .75; }
+    .stkCities .cityOutline:last-child {
+      padding-bottom: 60%; }
+      @media (max-width: 500px) {
+        .stkCities .cityOutline:last-child {
+          padding-bottom: 100%; } }
   .stkCities .activeCity img {
     width: 100%;
     opacity: 1; }
@@ -530,24 +535,23 @@ th {
     padding-top: 7.5%;
     padding-bottom: 7.5%;
     padding-left: 18%;
-    border-bottom: 0.2em solid black; }
+    border-bottom: 0.1em solid #888888; }
   .stkCities .cityName {
     margin: 0;
     line-height: 0;
     font-family: "Prata", serif;
-    font-size: 4em; }
+    font-weight: 100;
+    font-size: 3.5em; }
     @media (max-width: 500px) {
       .stkCities .cityName {
-        font-size: 3em;
-        text-align: center; } }
+        font-size: 2.5em; } }
   .stkCities .cityStats {
     position: absolute;
     top: 0;
     width: 100%;
     padding-top: 15%;
     padding-left: 16%;
-    padding-right: 3%;
-    text-align: center; }
+    padding-right: 3%; }
     .stkCities .cityStats p {
       font-family: " franklin-gothic-urw", sans-serif;
       font-weight: 700;
@@ -559,6 +563,8 @@ th {
     @media (max-width: 500px) {
       .stkCities .statList {
         width: 100%; } }
+    .stkCities .statList span {
+      color: #bb0a1e; }
   .stkCities .graph {
     width: 48%;
     float: right;
@@ -567,19 +573,20 @@ th {
       .stkCities .graph {
         display: none; } }
     .stkCities .graph img {
-      width: 100%; }
+      width: auto;
+      max-height: 7.5em; }
   .stkCities h4 {
+    margin: 0.5em 0;
     font-family: " franklin-gothic-urw", sans-serif;
     font-weight: 700;
-    font-size: 2em;
-    text-align: center;
-    margin: 0.5em 0; }
+    font-size: 1.7em;
+    text-transform: uppercase; }
 
 .stkNeighborhoods {
   max-width: 800px;
   margin: 0 auto;
   background-color: white;
-  color: black; }
+  color: #0d0d0d; }
   .stkNeighborhoods h2 {
     margin: 0.5em 0em;
     font-family: " franklin-gothic-urw", sans-serif;
@@ -592,10 +599,17 @@ th {
         .stkNeighborhoods h2 span {
           font-size: 20px;
           display: block; } }
-  .stkNeighborhoods .chatter {
+  .stkNeighborhoods p, .stkNeighborhoods a {
     font-family: " franklin-gothic-urw", sans-serif;
     font-size: 14px;
-    font-weight: 700;
+    font-weight: 700; }
+  .stkNeighborhoods p {
     color: #555555; }
+  .stkNeighborhoods a {
+    color: #daa520;
+    text-decoration: none; }
   .stkNeighborhoods .map {
     height: 400px; }
+    @media (max-width: 500px) {
+      .stkNeighborhoods .map {
+        display: none; } }

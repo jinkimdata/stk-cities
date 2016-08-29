@@ -1,7 +1,7 @@
 .stkNeighborhoods {
 	max-width: 800px;
 	margin: 0 auto;
-	background-color: $colorBase;
+	background-color: $colorBase0;
 	color: $colorTextMain;
 	h2 {
 		margin: 0.5em 0em;
@@ -17,13 +17,22 @@
 			}
 		}
 	}
-	.chatter {
+	p, a {
 		font-family: $fontSansSerifMain;
 		font-size: 14px;
 		font-weight: 700;
+	}
+	p {
 		color: $colorTextGray;
+	}
+	a {
+		color: $goldenrod;
+		text-decoration: none;
 	}
 	.map {
 		height: 400px;
+		@media(max-width: $bp5) {
+			display: none;
+		}
 	}
 }

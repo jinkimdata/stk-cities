@@ -91,7 +91,23 @@
 			"file": "src/index.pug",
 			"settings":
 			{
-				"buffer_size": 2653,
+				"buffer_size": 1725,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/includes/stkCities.pug",
+			"settings":
+			{
+				"buffer_size": 1142,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/includes/stkNeighborhoods.pug",
+			"settings":
+			{
+				"buffer_size": 208,
 				"line_ending": "Unix"
 			}
 		},
@@ -99,7 +115,7 @@
 			"file": "dist/index.html",
 			"settings":
 			{
-				"buffer_size": 2449,
+				"buffer_size": 2970,
 				"line_ending": "Unix"
 			}
 		},
@@ -107,7 +123,7 @@
 			"file": "package.json",
 			"settings":
 			{
-				"buffer_size": 4202,
+				"buffer_size": 4223,
 				"line_ending": "Unix"
 			}
 		},
@@ -120,13 +136,26 @@
 			}
 		},
 		{
-			"contents": "var stkCities = {\n	init: function(){\n		stkCities.scrollSnap('.stkCities .cities','.cityOutline');\n	},\n	// This function requires jQuery. It takes two classes as arguments, input as strings.\n	// This function takes one vertically scrollable div that includes multiple child divs and \n	// \"snaps\" the scroll behavior to the nearest child div.\n	// Right now, it is very limited to child divs of this specific style:\n	// width: $widthPct; height: 0; padding-bottom: $widthPct;\n	// Developing this further to have different child divs should not be a ton of work.\n	// I may get around to that in the near future.\n	scrollSnap: function(scrollDivClass, childDivClass) {\n		var scrollDiv = $(scrollDivClass);\n		var childDivs = $(childDivClass);\n		var childDivWidth = $(childDivs[0]).width();\n		var animating = false;\n		var currDiv, newDiv, currDivPos, newDivPos, divNum;\n		// On window resize, the childDivWidth is recalculated. This is a potentially wasteful and \n		// unnecessary function that I may phase out in the future. It is a soft patch for now.\n		var resizeId;\n		$(window).resize(function(){\n			clearTimeout(resizeId);\n			resizeId = setTimeout(doneResizing, 500);\n		});\n		function doneResizing() {\n			childDivWidth = $(childDivs[0]).width();\n		};\n		// The on scroll function is set on a timeout to help reduce site load.\n		scrollDiv.on('scroll', function(){\n			clearTimeout($.data(this, 'scrollTimer'));\n			if (!animating) {\n				$.data(this, 'scrollTimer', setTimeout(function() {\n					divNum = Math.round(scrollDiv.scrollTop() / childDivWidth);\n					scrollBehavior();\n					return false;\n				}, 200));\n			};\n			return false;\n		});\n		// The on click function will actually trigger the on scroll function above because it will \n		// scroll the parent div. This isn't ideal, but the clearTimeout and animating boolean \n		// ensures that the heavy lifting isn't done on the scroll function -- \n		// multiple instances of the scrollBehavior will not run.\n		childDivs.on('click', function(){\n			if (!animating) {\n				divNum = $(this).data('city');\n				scrollBehavior();\n				return false;\n			};		\n			return false;\n		});\n		// The scroll behavior is broken out into a helper function to reduce bloat.\n		// Code itself is fairly self-explanatory.\n		function scrollBehavior(){\n			if(divNum > 5){\n				divNum = 5;\n			};\n			animating = true;\n			scrollDiv.animate({\n				scrollTop: divNum * childDivWidth + 'px'\n			}, 250);\n			setTimeout(function() { animating = false; }, 300);\n			// On scroll end, we populate with new data from the current div.\n			stkCities.populateNewCity(divNum);\n			return false;\n		};\n	},\n	// This function is called in scrollSnap. populateNewCity will take in the new position in the \n	// div and repopulate the content with the new city's details.\n	populateNewCity: function(cityNum) {\n		var currCity = $('.cityOutline--'+cityNum);\n		var cityNames = [\n			['Baltimore','300','637','0.47'],\n			['Milwaukee','59','300','0.20'],\n			['Chicago','360','1,726','0.21'],\n			['Los Angeles','164','802','0.20'],\n			['New York','234','1,138','0.21'],\n			['Washington, D.C.','123','299','0.41'],\n		];\n		$('.activeCity').removeClass('activeCity');\n		currCity.addClass('activeCity');\n		cityNum = currCity.attr('data-city');\n		$('.jsFade').fadeOut('fast',function(){\n			$('.cityName').text(cityNames[cityNum][0]);\n			$('.nonFatStat').text(cityNames[cityNum][1]);\n			$('.fatStat').text(cityNames[cityNum][2]);\n			$('.ratioStat').text(cityNames[cityNum][3]);\n			$(this).fadeIn();\n		});\n		return false;\n	}\n}\n$(document).ready(function(){\n	stkCities.init();\n	console.log(\"connected\");\n});\n",
 			"file": "src/js/javascript.js",
-			"file_size": 3666,
-			"file_write_time": 131166261860000000,
 			"settings":
 			{
-				"buffer_size": 3579,
+				"buffer_size": 4498,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/scss/_stkCities.scss",
+			"settings":
+			{
+				"buffer_size": 2214,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/scss/_stkNeighborhoods.scss",
+			"settings":
+			{
+				"buffer_size": 503,
 				"line_ending": "Unix"
 			}
 		},
@@ -134,7 +163,7 @@
 			"file": "src/scss/style.scss",
 			"settings":
 			{
-				"buffer_size": 3064,
+				"buffer_size": 321,
 				"line_ending": "Unix"
 			}
 		},
@@ -142,7 +171,7 @@
 			"file": "src/scss/_variables.scss",
 			"settings":
 			{
-				"buffer_size": 177,
+				"buffer_size": 599,
 				"line_ending": "Unix"
 			}
 		},
@@ -151,22 +180,6 @@
 			"settings":
 			{
 				"buffer_size": 897,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "dist/css/style.css",
-			"settings":
-			{
-				"buffer_size": 12793,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/Users/jikim/Downloads/Shoot2Kill styleguide",
-			"settings":
-			{
-				"buffer_size": 1455,
 				"line_ending": "Unix"
 			}
 		}
@@ -230,14 +243,19 @@
 		"/Users/jikim/Documents/bsun/online/org/2016/shoot-to-kill/stk-cities/dist/js",
 		"/Users/jikim/Documents/bsun/online/org/2016/shoot-to-kill/stk-cities/mocks",
 		"/Users/jikim/Documents/bsun/online/org/2016/shoot-to-kill/stk-cities/src",
+		"/Users/jikim/Documents/bsun/online/org/2016/shoot-to-kill/stk-cities/src/includes",
 		"/Users/jikim/Documents/bsun/online/org/2016/shoot-to-kill/stk-cities/src/js",
 		"/Users/jikim/Documents/bsun/online/org/2016/shoot-to-kill/stk-cities/src/scss"
 	],
 	"file_history":
 	[
+		"/Users/jikim/Downloads/Shoot2Kill styleguide",
+		"/Users/jikim/Documents/bsun/online/org/2016/shoot-to-kill/stk-cities/dist/css/style.css",
+		"/Users/jikim/Documents/bsun/online/org/2016/shoot-to-kill/stk-cities/src/scss/style.scss",
+		"/Users/jikim/Documents/bsun/online/org/2016/shoot-to-kill/stk-cities/src/includes/stkCities.pug",
+		"/Users/jikim/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings",
 		"/Users/jikim/Documents/bsun/online/org/2016/shoot-to-kill/stk-cities/src/js/javascript.js",
 		"/Users/jikim/Documents/bsun/online/org/2016/shoot-to-kill/stk-cities/src/js/jquery-3.0.0.min.js",
-		"/Users/jikim/Documents/bsun/online/org/2016/shoot-to-kill/stk-cities/dist/css/style.css",
 		"/Users/jikim/Documents/bsun/online/org/2016/shoot-to-kill/stk-cities/README.md",
 		"/private/var/folders/by/2wnsp1w10wg42rhs8k_sjmk5grbkq6/T/fz3temp-1/index.html",
 		"/private/var/folders/by/2wnsp1w10wg42rhs8k_sjmk5grbkq6/T/fz3temp-1/javascript.js",
@@ -304,6 +322,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			".stkNeighborhoods\n	.map#map",
+			"    ",
+			"\"",
 			"],",
 			"currScrollPos",
 			"],",
@@ -436,7 +457,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -445,15 +466,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2653,
+						"buffer_size": 1725,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								82,
-								82
+								48,
+								48
 							]
 						],
 						"settings":
@@ -469,16 +490,73 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 8,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
+					"file": "src/includes/stkCities.pug",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1142,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								31,
+								31
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Pug/Syntaxes/Pug.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "src/includes/stkNeighborhoods.pug",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 208,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								51,
+								51
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Pug/Syntaxes/Pug.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
 					"file": "dist/index.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2449,
+						"buffer_size": 2970,
 						"regions":
 						{
 						},
@@ -499,24 +577,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 8,
+					"stack_index": 9,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
+					"buffer": 4,
 					"file": "package.json",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4202,
+						"buffer_size": 4223,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								413,
-								413
+								822,
+								822
 							]
 						],
 						"settings":
@@ -533,7 +611,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 5,
 					"file": ".gitignore",
 					"semi_transient": false,
 					"settings":
@@ -557,7 +635,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
+					"stack_index": 11,
 					"type": "text"
 				}
 			]
@@ -567,20 +645,20 @@
 			"sheets":
 			[
 				{
-					"buffer": 4,
+					"buffer": 6,
 					"file": "src/js/javascript.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3579,
+						"buffer_size": 4498,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2698,
-								2698
+								4073,
+								4073
 							]
 						],
 						"settings":
@@ -592,7 +670,7 @@
 							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
 							"translate_tabs_to_spaces": false
 						},
-						"translation.x": 1.0,
+						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
@@ -600,20 +678,20 @@
 					"type": "text"
 				},
 				{
-					"buffer": 5,
-					"file": "src/scss/style.scss",
+					"buffer": 7,
+					"file": "src/scss/_stkCities.scss",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3064,
+						"buffer_size": 2214,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								587,
-								474
+								31,
+								31
 							]
 						],
 						"settings":
@@ -629,20 +707,20 @@
 					"type": "text"
 				},
 				{
-					"buffer": 6,
-					"file": "src/scss/_variables.scss",
+					"buffer": 8,
+					"file": "src/scss/_stkNeighborhoods.scss",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 177,
+						"buffer_size": 503,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								17,
-								17
+								493,
+								493
 							]
 						],
 						"settings":
@@ -653,11 +731,67 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 7,
+					"buffer": 9,
+					"file": "src/scss/style.scss",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 321,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/SCSS/SCSS.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "src/scss/_variables.scss",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 599,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/SCSS/SCSS.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 10,
+					"type": "text"
+				},
+				{
+					"buffer": 11,
 					"file": "src/scss/_mixins.scss",
 					"semi_transient": false,
 					"settings":
@@ -682,66 +816,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "dist/css/style.css",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 12793,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CSS/CSS.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"file": "/Users/jikim/Downloads/Shoot2Kill styleguide",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1455,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								799,
-								799
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
+					"stack_index": 3,
 					"type": "text"
 				}
 			]
@@ -793,7 +868,7 @@
 	"project": "stk-cities.sublime-project",
 	"replace":
 	{
-		"height": 64.0
+		"height": 86.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -823,7 +898,7 @@
 		],
 		"width": 0.0
 	},
-	"selected_group": 1,
+	"selected_group": 0,
 	"settings":
 	{
 	},

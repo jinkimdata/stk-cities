@@ -98,30 +98,27 @@ var stkNeighborhoods = {
 		stkNeighborhoods.createMap();
 	},
 	createMap: function(){
-		function main() {
-			cartodb.createVis('map', 
-				'https://baltsun.carto.com/api/v2/viz/798d62cc-6b9e-11e6-834a-0e05a8b3e3d7/viz.json', {
-				shareable: false,
-				title: false,
-				description: false,
-				search: false,
-				tiles_loader: true,
-				infowindow: true,
-				center_lat: 39.264492,
-				center_lon: -76.612630,
-				zoom: 11
-			})
-			.done(function(vis, layers) {
-			  // layer 0 is the base layer, layer 1 is cartodb layer
-			  // setInteraction is disabled by default
-			  // layers[0].hide();
-			  layers[1].setInteraction(true);
-			})
-			.error(function(err) {
-			  console.log(err);
-			});
-		};
-		window.onload = main;
+		cartodb.createVis('map', 
+			'https://baltsun.carto.com/api/v2/viz/798d62cc-6b9e-11e6-834a-0e05a8b3e3d7/viz.json', {
+			shareable: false,
+			title: false,
+			description: false,
+			search: false,
+			tiles_loader: true,
+			infowindow: true,
+			center_lat: 39.264492,
+			center_lon: -76.612630,
+			zoom: 11
+		})
+		.done(function(vis, layers) {
+		  // layer 0 is the base layer, layer 1 is cartodb layer
+		  // setInteraction is disabled by default
+		  // layers[0].hide();
+		  layers[1].setInteraction(true);
+		})
+		.error(function(err) {
+		  console.log(err);
+		});
 	}
 };
 $(document).ready(function(){

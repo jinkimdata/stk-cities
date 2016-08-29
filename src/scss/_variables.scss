@@ -2,6 +2,8 @@ $prata: 'Prata', serif;
 $franklin:' franklin-gothic-urw', sans-serif;
 
 $goldenrod: #daa520;
+$offblack: #0d0d0d;
+
 $stkRed: #bb0a1e;
 $stkDarkGray: #555555;
 $stkLightGray: #888888;
@@ -19,10 +21,16 @@ $fontSerifMain: $prata;
 $fontSansSerifMain: $franklin;
 
 // Colors
-$colorBase: white;
-$colorTextMain: black;
-$colorTextAccent: $stkRed;
-$colorTextGray: $stkDarkGray;
+$colorBase0: white;
+$colorBase1: $offblack;
+
+$colorAccent0: $stkRed;
+$colorAccent1: $stkDarkGray;
+$colorAccent2: $stkLightGray;
+
+$colorTextMain: $colorBase1;
+$colorTextAccent: $colorAccent0;
+$colorTextGray: $colorAccent1;
 
 // Colors -- black scheme
 // $colorBase: black;
