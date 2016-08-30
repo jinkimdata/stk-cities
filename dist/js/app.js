@@ -3044,8 +3044,77 @@ var stkNeighborhoods = {
     }
 };
 
+var stkHeadshots = {
+    init: function() {
+        console.log("stkHeadshots running");
+        stkHeadshots.horizontalScroll();
+    },
+    horizontalScroll: function() {
+        var scrollerInstance;
+        var pos, center;
+        var lock;
+        $(".stat--2000").on("click", function() {
+            scroller(-1);
+        });
+        $(".stat--2015").on("click", function() {
+            scroller(1);
+        });
+        function scroller(direction) {
+            scrollerInstance = setTimeout(function() {
+                center = $(".center");
+                pos = center.data("pos");
+                if (direction == -1 && pos > 0) {
+                    center.removeClass("center").addClass("right");
+                    $(".slide--" + (pos - 1)).addClass("center").removeClass("left");
+                    return false;
+                } else if (direction == 1 && pos < 3) {
+                    center.removeClass("center").addClass("left");
+                    $(".slide--" + (pos + 1)).addClass("center").removeClass("right");
+                    return false;
+                } else {
+                    return true;
+                }
+                return false;
+            }, 200);
+            return false;
+        }
+        function isScrolledIntoView(elem) {
+            var docViewTop = $(window).scrollTop();
+            var docViewBottom = docViewTop + $(window).height();
+            var elemTop = $(elem).offset().top;
+            var elemBottom = elemTop + $(elem).height();
+            return (docViewTop + docViewBottom) / 2 > elemTop && docViewTop < elemTop;
+        }
+        $(window).scroll(function() {
+            if (isScrolledIntoView(".slidesWrapper")) {
+                $("body").bind("DOMMouseScroll", function(e) {
+                    clearTimeout(scrollerInstance);
+                    if (e.originalEvent.detail > 0) {
+                        return scroller(1);
+                    } else {
+                        return scroller(-1);
+                    }
+                    return false;
+                });
+                $("body").bind("mousewheel", function(e) {
+                    clearTimeout(scrollerInstance);
+                    if (e.originalEvent.wheelDelta < 0) {
+                        return scroller(1);
+                    } else {
+                        return scroller(-1);
+                    }
+                    return false;
+                });
+            } else {
+                $("body").unbind("mousewheel DOMMouseScroll");
+            }
+        });
+    }
+};
+
 $(document).ready(function() {
     stkCities.init();
     stkNeighborhoods.init();
+    stkHeadshots.init();
     console.log("connected");
 });

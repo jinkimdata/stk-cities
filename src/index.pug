@@ -32,15 +32,12 @@ html(class="no-js", lang="en")
 			href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css")
 		link(rel="stylesheet", type="text/css", href=datalink + "css/style.css")
 	body
-
-		include includes/stkCities.pug
-
-		hr(style="margin: 3em 0;")
-			
 		include includes/stkNeighborhoods.pug
-
+		hr(style="margin: 30em 0;")
+		include includes/stkHeadshots.pug
+		hr(style="margin: 30em 0;")
+		include includes/stkCities.pug
 		//Javascript
 		script(src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js")
 		script(src=datalink + "js/app.js")
 		//- script(src=datalink + "js/app.min.js")
-		

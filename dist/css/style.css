@@ -495,7 +495,6 @@ th {
   .stkCities .cities {
     position: relative;
     overflow-y: scroll;
-    overflow: auto;
     z-index: 1;
     height: 25em;
     padding-right: 20px; }
@@ -609,7 +608,56 @@ th {
     color: #daa520;
     text-decoration: none; }
   .stkNeighborhoods .map {
-    height: 400px; }
-    @media (max-width: 500px) {
+    height: 400px;
+    margin-top: 2em; }
+    @media (max-width: 600px) {
       .stkNeighborhoods .map {
         display: none; } }
+
+.stkHeadshots {
+  width: 100%;
+  padding: 2em 0;
+  background-color: #0d0d0d;
+  color: white;
+  text-align: center;
+  text-transform: uppercase;
+  overflow: hidden; }
+  .stkHeadshots .slidesWrapper {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    height: 100px; }
+  .stkHeadshots h3 {
+    margin: 0;
+    font-size: 2.4em; }
+    .stkHeadshots h3 span {
+      color: #bb0a1e; }
+  .stkHeadshots .slide {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    transition: all 0.5s ease; }
+    .stkHeadshots .slide.left {
+      left: -200%; }
+    .stkHeadshots .slide.right {
+      left: 200%; }
+  .stkHeadshots .statsWrapper {
+    width: 100%;
+    margin: 2em 0; }
+  .stkHeadshots .stat {
+    display: inline-block; }
+  .stkHeadshots .figure {
+    margin: 0 .5em;
+    font-size: 3.7em;
+    font-family: "Prata", serif; }
+  .stkHeadshots .year {
+    font-size: 1.2em;
+    margin: 0;
+    color: #bb0a1e;
+    font-family: " franklin-gothic-urw", sans-serif; }
+
+.stopScroll {
+  height: 100%;
+  overflow: hidden; }

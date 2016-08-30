@@ -1,0 +1,56 @@
+.stkHeadshots {
+	width: 100%;
+	padding: 2em 0;
+	background-color: $offblack;
+	color: white;
+	text-align: center;
+	text-transform: uppercase;
+	overflow: hidden;
+	.slidesWrapper {
+		position: relative;
+		max-width: 800px;
+		margin: 0 auto;
+		height: 100px;
+	}
+	h3 {
+		margin: 0;
+		font-size: 2.4em;
+		span {
+			color: $stkRed;
+		}
+	}
+	.slide {
+		width: 100%;
+		position: absolute;
+		left: 0;
+		&.left {
+			left: -200%;
+		}
+		&.right {
+			left: 200%;
+		}
+		@include transition(all .5s ease);
+	}
+	.statsWrapper {
+		width: 100%;
+		margin: 2em 0;
+	}
+	.stat {
+		display: inline-block;
+	}
+	.figure {
+		margin: 0 .5em;
+		font-size: 3.7em;
+		font-family: $prata;
+	}
+	.year {
+		font-size: 1.2em;
+		margin: 0;
+		color: $stkRed;
+		font-family: $franklin;
+	}
+}
+.stopScroll {
+	height: 100%;
+	overflow: hidden;
+}

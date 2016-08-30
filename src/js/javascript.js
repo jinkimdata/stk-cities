@@ -1,3 +1,5 @@
+// stkCities functions control scrolling behavior to "snap" to a selected city and repopulates
+// content with new city information. The populateNewCity function holds the data.
 var stkCities = {
 	init: function(){
 		console.log('stkCities running');
@@ -92,6 +94,8 @@ var stkCities = {
 		return false;
 	}
 };
+// stkNeighborhoods functions create the Carto map. There's not much to it -- basically just 
+// boilerplate embed code from Carto's website.
 var stkNeighborhoods = {
 	init: function(){
 		console.log('stkNeighborhoods running');
@@ -111,9 +115,6 @@ var stkNeighborhoods = {
 			zoom: 11
 		})
 		.done(function(vis, layers) {
-		  // layer 0 is the base layer, layer 1 is cartodb layer
-		  // setInteraction is disabled by default
-		  // layers[0].hide();
 		  layers[1].setInteraction(true);
 		})
 		.error(function(err) {
@@ -121,8 +122,82 @@ var stkNeighborhoods = {
 		});
 	}
 };
+// stkHeadshots functions detect when the headshots graphic is in view and scrolljacks the page
+// in order to force horizontal scrolling. After going through all of the slides in the graphic,
+// the scrolljacking releases and allows the user to scroll down again.
+var stkHeadshots = {
+	init: function(){
+		console.log('stkHeadshots running');
+		stkHeadshots.horizontalScroll();
+	},
+	horizontalScroll: function() {
+		var scrollerInstance;
+		var pos, center;
+		var lock;
+		$('.stat--2000').on('click', function(){
+			scroller(-1);
+		});
+		$('.stat--2015').on('click', function(){
+			scroller(1);
+		});
+		function scroller(direction){
+			scrollerInstance = setTimeout(function(){
+				center = $('.center');
+				pos = center.data('pos');
+				if(direction == -1 && pos > 0){
+					center.removeClass('center').addClass('right');
+					$('.slide--' + (pos-1)).addClass('center').removeClass('left');
+					return false;
+				} else if(direction == 1 && pos < 3){
+					center.removeClass('center').addClass('left');
+					$('.slide--' + (pos+1)).addClass('center').removeClass('right');
+					return false;
+				} else {
+					return true;
+				}
+				return false;
+			}, 200);
+			return false;
+		};
+		function isScrolledIntoView(elem) {
+			var docViewTop = $(window).scrollTop();
+			var docViewBottom = docViewTop + $(window).height();
+			var elemTop = $(elem).offset().top;
+			var elemBottom = elemTop + $(elem).height();
+			return (((docViewTop + docViewBottom) / 2 > elemTop) && (docViewTop < elemTop));
+		};
+		$(window).scroll(function(){
+			if(isScrolledIntoView('.slidesWrapper')){
+				// $('body').addClass('stopScroll');
+				// Firefox
+				$('body').bind('DOMMouseScroll', function(e){
+					clearTimeout(scrollerInstance);
+					if(e.originalEvent.detail > 0) {
+						return scroller(1);
+					} else {
+						return scroller(-1);
+					};
+					return false;
+				});
+				//IE, Opera, Safari
+				$('body').bind('mousewheel', function(e){
+					clearTimeout(scrollerInstance);
+					if(e.originalEvent.wheelDelta < 0) {
+						return scroller(1);
+					} else {
+						return scroller(-1);
+					};
+					return false;
+				});
+			} else {
+				$('body').unbind('mousewheel DOMMouseScroll');
+			};
+		});
+	}
+};
 $(document).ready(function(){
 	stkCities.init();
 	stkNeighborhoods.init();
+	stkHeadshots.init();
 	console.log('connected');
 });
