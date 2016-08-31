@@ -3051,30 +3051,56 @@ var stkHeadshots = {
     },
     horizontalScroll: function() {
         var scrollerInstance;
-        var pos, center;
+        var pos, newPos, center;
         var lock;
-        $(".stat--2000").on("click", function() {
-            scroller(-1);
-        });
-        $(".stat--2015").on("click", function() {
-            scroller(1);
-        });
+        var counter;
+        var domStats = $(".statNum");
+        var currDom;
+        var allChars = [ "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" ];
+        var stats = [ [ "123", "234", "345", "456" ], [ "234", "345", "456", "567" ], [ "345", "456", "567", "678" ], [ "456", "567", "678", "789" ] ];
+        function charScrambler(chars) {
+            console.log(currDom);
+            console.log(chars);
+            var char_cycles = 15;
+            var char_cycle_length = 30;
+            if (counter < char_cycles) {
+                console.log("cycling" + counter);
+                setTimeout(function() {
+                    counter++;
+                    for (var x = 0; x < chars.length; x++) {
+                        $(currDom[x]).text(allChars[Math.floor(Math.random() * 10)]);
+                    }
+                    charScrambler(chars);
+                }, char_cycle_length);
+            } else {
+                for (var y = 0; y < chars.length; y++) {
+                    $(currDom[y]).text(chars.substring(y, y + 1));
+                }
+            }
+        }
         function scroller(direction) {
             scrollerInstance = setTimeout(function() {
                 center = $(".center");
                 pos = center.data("pos");
                 if (direction == -1 && pos > 0) {
+                    newPos = pos - 1;
                     center.removeClass("center").addClass("right");
-                    $(".slide--" + (pos - 1)).addClass("center").removeClass("left");
-                    return false;
+                    $(".slide--" + newPos).addClass("center").removeClass("left");
+                    lock = false;
                 } else if (direction == 1 && pos < 3) {
+                    newPos = pos + 1;
                     center.removeClass("center").addClass("left");
-                    $(".slide--" + (pos + 1)).addClass("center").removeClass("right");
-                    return false;
+                    $(".slide--" + newPos).addClass("center").removeClass("right");
+                    lock = false;
+                    for (var i = 0; i < domStats.length; i++) {
+                        counter = 0;
+                        currDom = domStats[i].children;
+                    }
+                    charScrambler(stats[newPos][0]);
                 } else {
-                    return true;
+                    lock = true;
                 }
-                return false;
+                return lock;
             }, 200);
             return false;
         }
@@ -3083,30 +3109,31 @@ var stkHeadshots = {
             var docViewBottom = docViewTop + $(window).height();
             var elemTop = $(elem).offset().top;
             var elemBottom = elemTop + $(elem).height();
-            return (docViewTop + docViewBottom) / 2 > elemTop && docViewTop < elemTop;
+            var pad = Math.round((docViewBottom - docViewTop) * .1);
+            return docViewTop + pad < elemTop && docViewBottom - pad > elemBottom;
         }
         $(window).scroll(function() {
-            if (isScrolledIntoView(".slidesWrapper")) {
+            if (isScrolledIntoView(".stkHeadshots")) {
                 $("body").bind("DOMMouseScroll", function(e) {
                     clearTimeout(scrollerInstance);
                     if (e.originalEvent.detail > 0) {
-                        return scroller(1);
+                        scroller(1);
                     } else {
-                        return scroller(-1);
+                        scroller(-1);
                     }
-                    return false;
+                    return lock;
                 });
                 $("body").bind("mousewheel", function(e) {
                     clearTimeout(scrollerInstance);
                     if (e.originalEvent.wheelDelta < 0) {
-                        return scroller(1);
+                        scroller(1);
                     } else {
-                        return scroller(-1);
+                        scroller(-1);
                     }
-                    return false;
+                    return lock;
                 });
             } else {
-                $("body").unbind("mousewheel DOMMouseScroll");
+                $("body").unbind("DOMMouseScroll mousewheel");
             }
         });
     }

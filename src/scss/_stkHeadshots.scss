@@ -1,5 +1,6 @@
 .stkHeadshots {
 	width: 100%;
+	height: 300px;
 	padding: 2em 0;
 	background-color: $offblack;
 	color: white;
@@ -8,9 +9,10 @@
 	overflow: hidden;
 	.slidesWrapper {
 		position: relative;
+		top: 0;
+		height: 50%;
 		max-width: 800px;
 		margin: 0 auto;
-		height: 100px;
 	}
 	h3 {
 		margin: 0;
@@ -32,13 +34,29 @@
 		@include transition(all .5s ease);
 	}
 	.statsWrapper {
-		width: 100%;
-		margin: 2em 0;
+		position: relative;
+		bottom: 1em;
+		max-width: 800px;
+		height: 50%;
+		margin: 2em auto;
 	}
 	.stat {
 		display: inline-block;
+		position: absolute;
+		&--0 {
+			left: 0;
+		}
+		&--1 {
+			left: 25%
+		}
+		&--2 {
+			left: 50%
+		}
+		&--3 {
+			left: 75%;
+		}
 	}
-	.figure {
+	.statNum {
 		margin: 0 .5em;
 		font-size: 3.7em;
 		font-family: $prata;
