@@ -144,34 +144,69 @@ var stkHeadshots = {
 			['345','456','567','678'],
 			['456','567','678','789']
 		];
-		// var stats = [
-		// 	[123,234,345,456],
-		// 	[234,345,456,567],
-		// 	[345,456,567,678],
-		// 	[456,567,678,789]
-		// ];
-		function charScrambler(chars){
-			console.log(currDom);
-			console.log(chars);
-			//Settings
-			var char_cycles = 15; //how many nonsense letters it cycles through
-			var char_cycle_length = 30; //length of each cycle in milliseconds
-			//Cycle through the appropriate number of letters,
-			//according to the settings above
-			if(counter < char_cycles){
-				console.log('cycling'+counter);
-				setTimeout(function(){
-					counter++;
-					for(var x = 0; x < chars.length; x++){
-						$(currDom[x]).text(allChars[Math.floor((Math.random()*10))]);
-					}
-					charScrambler(chars);
-				}, char_cycle_length);
-			} else {
-				for (var y = 0; y < chars.length; y++){
-					$(currDom[y]).text(chars.substring(y,y+1));
-				}
-			}
+		$(window).scroll(function(){
+			if(isScrolledIntoView('.stkHeadshots')){
+				// Firefox
+				$('body').bind('DOMMouseScroll', function(e){
+					clearTimeout(scrollerInstance);
+					if(e.originalEvent.detail > 0) {
+						scroller(1);
+					} else {
+						scroller(-1);
+					};
+					return lockCheck(lock,e);
+				});
+				//IE, Opera, Safari
+				$('body').bind('mousewheel', function(e){
+					clearTimeout(scrollerInstance);
+					if(e.originalEvent.wheelDelta < 0) {
+						scroller(1);
+					} else {
+						scroller(-1);
+					};
+					return lockCheck(lock,e);
+				});
+				$('body').bind('keydown', function(e){
+					clearTimeout(scrollerInstance);
+					if(e.keyCode == 38) {
+						scroller(-1);
+					} else if(e.keyCode == 40) {
+						scroller(1);
+					};
+					return lockCheck(lock,e);
+				});
+				// $('body').bind('touchmove', function (e){
+				// 	var currentY = e.originalEvent.touches[0].clientY
+				// 	console.log(e.originalEvent.touches[0]);
+				// 	// console.log(e.originalEvent.changedTouches[0]);
+				// 	return lockCheck(lock,e);
+				// });
+
+				// var lastY;
+				// $('body').bind('touchmove', function (e){
+				// 	console.log('touching');
+				// 	var currentY = e.originalEvent.touches[0].clientY;
+				// 	if(currentY > lastY){
+				// 		console.log('triggerup');
+				// 		scroller(1);
+				// 	} else if(currentY < lastY){
+				// 		console.log('triggerdown');
+				// 		scroller(-1);
+				// 	}
+				// 	lastY = currentY;
+				// 	return lockCheck(lock,e);
+				// });
+
+			};
+			return false;
+		});
+		function isScrolledIntoView(elem) {
+			var docViewTop = $(window).scrollTop();
+			var docViewBottom = docViewTop + $(window).height();
+			var elemTop = $(elem).offset().top;
+			var elemBottom = elemTop + $(elem).height();
+			var pad = Math.round((docViewBottom - docViewTop) * .1);
+			return (((docViewTop + pad) < elemTop) && ((docViewBottom - pad) > elemBottom));
 		};
 		function scroller(direction){
 			scrollerInstance = setTimeout(function(){
@@ -190,8 +225,8 @@ var stkHeadshots = {
 					for (var i = 0;i < domStats.length; i++) {
 						counter = 0;
 						currDom = domStats[i].children;
-					};
 						charScrambler(stats[newPos][0]);
+					};
 				} else {
 					lock = true;
 				};	
@@ -199,41 +234,36 @@ var stkHeadshots = {
 			}, 200);
 			return false;
 		};
-		function isScrolledIntoView(elem) {
-			var docViewTop = $(window).scrollTop();
-			var docViewBottom = docViewTop + $(window).height();
-			var elemTop = $(elem).offset().top;
-			var elemBottom = elemTop + $(elem).height();
-			var pad = Math.round((docViewBottom - docViewTop) * .1);
-			return (((docViewTop + pad) < elemTop) && ((docViewBottom - pad) > elemBottom));
-		};
-		$(window).scroll(function(){
-			if(isScrolledIntoView('.stkHeadshots')){
-				// $('body').addClass('stopScroll');
-				// Firefox
-				$('body').bind('DOMMouseScroll', function(e){
-					clearTimeout(scrollerInstance);
-					if(e.originalEvent.detail > 0) {
-						scroller(1);
-					} else {
-						scroller(-1);
-					};
-					return lock;
-				});
-				//IE, Opera, Safari
-				$('body').bind('mousewheel', function(e){
-					clearTimeout(scrollerInstance);
-					if(e.originalEvent.wheelDelta < 0) {
-						scroller(1);
-					} else {
-						scroller(-1);
-					};
-					return lock;
-				});
+		function lockCheck(lock,e) {
+			if(lock) {
+				$('body').unbind();
 			} else {
-				$('body').unbind('DOMMouseScroll mousewheel');
+				e.preventDefault();
 			};
-		});
+			return lock;
+		};
+		function charScrambler(chars){
+			// console.log(currDom);
+			// console.log(chars);
+			//Settings
+			var char_cycles = 15; //how many nonsense letters it cycles through
+			var char_cycle_length = 30; //length of each cycle in milliseconds
+			//Cycle through the appropriate number of letters,
+			//according to the settings above
+			if(counter < char_cycles){
+				setTimeout(function(){
+					counter++;
+					for(var x = 0; x < chars.length; x++){
+						$(currDom[x]).text(allChars[Math.floor((Math.random()*10))]);
+					}
+					charScrambler(chars);
+				}, char_cycle_length);
+			} else {
+				for (var y = 0; y < chars.length; y++){
+					$(currDom[y]).text(chars.substring(y,y+1));
+				}
+			};
+		};
 	}
 };
 $(document).ready(function(){
