@@ -40,7 +40,8 @@ $cubeSize: 12.5%; // Size of city outline divs
 	}
 	.cities {
 		position: relative;
-		overflow-y: scroll;
+		// overflow-y: scroll;
+		overflow: hidden;
 		z-index: 1;
 		height: 25em;
 		padding-right: 20px;
