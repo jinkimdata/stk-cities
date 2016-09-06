@@ -133,7 +133,7 @@ var stkHeadshots = {
 	horizontalScroll: function() {
 		var scrollerInstance;
 		var pos, newPos, center;
-		var lock;
+		var unlock;
 		var counter;
 		var domStats = $('.statNum');
 		var currDom;
@@ -150,53 +150,33 @@ var stkHeadshots = {
 				$('body').bind('DOMMouseScroll', function(e){
 					clearTimeout(scrollerInstance);
 					if(e.originalEvent.detail > 0) {
-						scroller(1);
+						headshotScroller(1);
 					} else {
-						scroller(-1);
+						headshotScroller(-1);
 					};
-					return lockCheck(lock,e);
+					return unlockCheck(unlock,e);
 				});
 				//IE, Opera, Safari
 				$('body').bind('mousewheel', function(e){
 					clearTimeout(scrollerInstance);
 					if(e.originalEvent.wheelDelta < 0) {
-						scroller(1);
+						headshotScroller(1);
 					} else {
-						scroller(-1);
+						headshotScroller(-1);
 					};
-					return lockCheck(lock,e);
+					return unlockCheck(unlock,e);
 				});
 				$('body').bind('keydown', function(e){
 					clearTimeout(scrollerInstance);
-					if(e.keyCode == 38) {
-						scroller(-1);
-					} else if(e.keyCode == 40) {
-						scroller(1);
+					if(e.keyCode == 40) {
+						headshotScroller(1);
+					} else if(e.keyCode == 38) {
+						headshotScroller(-1);
 					};
-					return lockCheck(lock,e);
+					return unlockCheck(unlock,e);
 				});
-				// $('body').bind('touchmove', function (e){
-				// 	var currentY = e.originalEvent.touches[0].clientY
-				// 	console.log(e.originalEvent.touches[0]);
-				// 	// console.log(e.originalEvent.changedTouches[0]);
-				// 	return lockCheck(lock,e);
-				// });
-
-				// var lastY;
-				// $('body').bind('touchmove', function (e){
-				// 	console.log('touching');
-				// 	var currentY = e.originalEvent.touches[0].clientY;
-				// 	if(currentY > lastY){
-				// 		console.log('triggerup');
-				// 		scroller(1);
-				// 	} else if(currentY < lastY){
-				// 		console.log('triggerdown');
-				// 		scroller(-1);
-				// 	}
-				// 	lastY = currentY;
-				// 	return lockCheck(lock,e);
-				// });
-
+			} else {
+				unlock = true;
 			};
 			return false;
 		});
@@ -208,41 +188,40 @@ var stkHeadshots = {
 			var pad = Math.round((docViewBottom - docViewTop) * .1);
 			return (((docViewTop + pad) < elemTop) && ((docViewBottom - pad) > elemBottom));
 		};
-		function scroller(direction){
+		function headshotScroller(direction){
 			scrollerInstance = setTimeout(function(){
 				center = $('.center');
 				pos = center.data('pos');
+				unlock = false;
 				if(direction == -1 && pos > 0){
 					newPos = pos - 1;
 					center.removeClass('center').addClass('right');
 					$('.slide--' + newPos).addClass('center').removeClass('left');
-					lock = false;
 				} else if(direction == 1 && pos < 3){
 					newPos = pos + 1;
 					center.removeClass('center').addClass('left');
 					$('.slide--' + newPos).addClass('center').removeClass('right');
-					lock = false;
-					for (var i = 0;i < domStats.length; i++) {
-						counter = 0;
-						currDom = domStats[i].children;
-						charScrambler(stats[newPos][0]);
-					};
 				} else {
-					lock = true;
-				};	
-				return lock;
+					unlock = true;
+				};
+				if(!unlock) {
+					for (var i = 0;i < domStats.length; i++) {
+						charScrambler(stats[newPos][i], domStats[i].children, 0);
+					};
+				};
+				return unlock;
 			}, 200);
 			return false;
 		};
-		function lockCheck(lock,e) {
-			if(lock) {
+		function unlockCheck(unlock,e) {
+			if(unlock) {
 				$('body').unbind();
 			} else {
 				e.preventDefault();
 			};
-			return lock;
+			return unlock;
 		};
-		function charScrambler(chars){
+		function charScrambler(chars, dom, count){
 			// console.log(currDom);
 			// console.log(chars);
 			//Settings
@@ -250,19 +229,19 @@ var stkHeadshots = {
 			var char_cycle_length = 30; //length of each cycle in milliseconds
 			//Cycle through the appropriate number of letters,
 			//according to the settings above
-			if(counter < char_cycles){
+			if(count < char_cycles){
 				setTimeout(function(){
-					counter++;
 					for(var x = 0; x < chars.length; x++){
-						$(currDom[x]).text(allChars[Math.floor((Math.random()*10))]);
+						$(dom[x]).text(allChars[Math.floor((Math.random()*10))]);
 					}
-					charScrambler(chars);
+					charScrambler(chars, dom, (count+1));
 				}, char_cycle_length);
 			} else {
 				for (var y = 0; y < chars.length; y++){
-					$(currDom[y]).text(chars.substring(y,y+1));
+					$(dom[y]).text(chars.substring(y,y+1));
 				}
 			};
+			return false;
 		};
 	}
 };

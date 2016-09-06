@@ -31,7 +31,7 @@
 		&.right {
 			left: 200%;
 		}
-		@include transition(all .5s ease);
+		@include transition(all .3s ease);
 	}
 	.statsWrapper {
 		position: relative;
@@ -39,32 +39,29 @@
 		max-width: 800px;
 		height: 50%;
 		margin: 2em auto;
+		text-align: center;
 	}
 	.stat {
 		display: inline-block;
-		position: absolute;
-		&--0 {
-			left: 0;
-		}
-		&--1 {
-			left: 25%
-		}
-		&--2 {
-			left: 50%
-		}
-		&--3 {
-			left: 75%;
-		}
+		position: relative;
+		width: 24%;
+		height: 80%;
 	}
 	.statNum {
-		margin: 0 .5em;
+		position: absolute;
+		top: 0;
+		width: 100%;
+		margin: 0;
 		font-size: 3.7em;
 		font-family: $prata;
 	}
 	.year {
-		font-size: 1.2em;
+		position: absolute;
+		bottom: 0;
+		width: 100%;
 		margin: 0;
 		color: $stkRed;
+		font-size: 1.2em;
 		font-family: $franklin;
 	}
 }

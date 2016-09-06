@@ -1,3 +1,5 @@
+$cubeSize: 12.5%; // Size of city outline divs
+
 .stkCities {
 	max-width: 800px;
 	margin: 0 auto;
@@ -33,7 +35,7 @@
 			font-size: 10px;
 		}
 		::-webkit-scrollbar { 
-			// display: none; 
+			display: none; 
 		}
 	}
 	.cities {
