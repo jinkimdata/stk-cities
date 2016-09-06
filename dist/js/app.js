@@ -2958,7 +2958,6 @@ var stkGphx = {
     init: function() {
         console.log("stkGphx running");
         stkGphx.scrollFuncs();
-        stkGphx.cities();
         stkGphx.neighborhoods();
     },
     scrollFuncs: function() {
@@ -3035,7 +3034,7 @@ var stkGphx = {
         var docViewBottom = docViewTop + $(window).height();
         var elemTop = $(elem).offset().top;
         var elemBottom = elemTop + $(elem).height();
-        var pad = Math.round((docViewBottom - docViewTop) * .1);
+        var pad = Math.round((docViewBottom - docViewTop) * 0);
         return docViewTop + pad < elemTop && docViewBottom - pad > elemBottom;
     },
     headshotScroller: function(direction) {
@@ -3119,7 +3118,7 @@ var stkGphx = {
             resizeId = setTimeout(doneResizing, 500);
         });
         function doneResizing() {
-            childDivWidth = $(childDivs[0]).width();
+            childDivWidth = $(".cityOutline--0").width();
         }
         scrollDiv.animate({
             scrollTop: cityNum * childDivWidth + "px"

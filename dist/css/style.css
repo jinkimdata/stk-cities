@@ -624,7 +624,11 @@ th {
   color: white;
   text-align: center;
   text-transform: uppercase;
-  overflow: hidden; }
+  overflow: hidden;
+  font-size: 14px; }
+  @media (max-width: 700px) {
+    .stkHeadshots {
+      font-size: 12px; } }
   .stkHeadshots .slidesWrapper {
     position: relative;
     top: 0;
@@ -648,20 +652,24 @@ th {
     .stkHeadshots .slide.right {
       left: 200%; }
   .stkHeadshots .statsWrapper {
-    position: relative;
-    bottom: 1em;
+    height: 45%;
     max-width: 800px;
-    height: 50%;
-    margin: 2em auto;
+    margin: 0 auto;
     text-align: center; }
   .stkHeadshots .stat {
     display: inline-block;
     position: relative;
     width: 24%;
-    height: 80%; }
+    height: 100%;
+    margin: 0; }
+    @media (max-width: 500px) {
+      .stkHeadshots .stat {
+        width: 32%; }
+        .stkHeadshots .stat--0 {
+          display: none; } }
   .stkHeadshots .statNum {
     position: absolute;
-    top: 0;
+    bottom: .5em;
     width: 100%;
     margin: 0;
     font-size: 3.7em;

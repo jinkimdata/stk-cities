@@ -7,6 +7,10 @@
 	text-align: center;
 	text-transform: uppercase;
 	overflow: hidden;
+	font-size: 14px;
+	@media(max-width: $bp7) {
+		font-size: 12px;
+	}
 	.slidesWrapper {
 		position: relative;
 		top: 0;
@@ -34,22 +38,33 @@
 		@include transition(all .3s ease);
 	}
 	.statsWrapper {
-		position: relative;
-		bottom: 1em;
+		// position: relative;
+		// bottom: 0;
+		height: 45%;
 		max-width: 800px;
-		height: 50%;
-		margin: 2em auto;
+		margin: 0 auto;
 		text-align: center;
+		@media(max-width: $bp5) {
+			// height: 30%;
+			// bottom: 0
+		}
 	}
 	.stat {
 		display: inline-block;
 		position: relative;
 		width: 24%;
-		height: 80%;
+		height: 100%;
+		margin: 0;
+		@media(max-width: $bp5) {
+			width: 32%;
+			&--0 {
+				display: none;
+			}
+		}
 	}
 	.statNum {
 		position: absolute;
-		top: 0;
+		bottom: .5em;
 		width: 100%;
 		margin: 0;
 		font-size: 3.7em;
