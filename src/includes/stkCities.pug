@@ -5,6 +5,7 @@
 		| See how it compares to other major cities below.
 	.graphic
 		.cities
+			.cityOutline(data-city="0")
 			.cityOutline.cityOutline--0.activeCity(data-city="0")
 				img(src=datalink + "images/0.png")
 			.cityOutline.cityOutline--1(data-city="1")
@@ -17,6 +18,7 @@
 				img(src=datalink + "images/4.png")
 			.cityOutline.cityOutline--5(data-city="5")
 				img(src=datalink + "images/5.png")
+			.cityOutline(data-city="5")
 		.cityNameBlock
 			h3.cityName.jsFade Baltimore
 		.cityStats

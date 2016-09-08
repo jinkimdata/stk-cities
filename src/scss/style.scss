@@ -6,7 +6,8 @@
 // Base styles -- normalizes styles across browsers. 
 // Alter border-sizing styles to prevent issues in P2P HTML stories
 @import "normalize";
-@import "fonts";
+// @import "fonts";
+@import "fontello";
 
 @import "stkCities";
 @import "stkNeighborhoods";

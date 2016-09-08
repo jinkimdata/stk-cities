@@ -3,8 +3,6 @@
 var stkGphx = {
 	scrollerInstance: null,
 	unlock: false,
-	touchY0: null,
-	touchY1: null,
 	touchX0: null,
 	touchX1: null,
 	cityNames: [
@@ -36,7 +34,7 @@ var stkGphx = {
 					if(e.originalEvent.detail > 0) {
 						stkGphx.headshotScroller(1);
 					} else {
-						stkGphx.headshotScroller(-1);
+						stkGphx.headshotScroller(0);
 					};
 					return stkGphx.unlockCheck(e);
 				});
@@ -46,7 +44,7 @@ var stkGphx = {
 					if(e.originalEvent.wheelDelta < 0) {
 						stkGphx.headshotScroller(1);
 					} else {
-						stkGphx.headshotScroller(-1);
+						stkGphx.headshotScroller(0);
 					};
 					return stkGphx.unlockCheck(e);
 				});
@@ -55,36 +53,23 @@ var stkGphx = {
 					if(e.keyCode == 40) {
 						stkGphx.headshotScroller(1);
 					} else if(e.keyCode == 38) {
-						stkGphx.headshotScroller(-1);
+						stkGphx.headshotScroller(0);
 					};
 					return stkGphx.unlockCheck(e);
 				});
 				$('body').bind('touchstart', function(e){
-					// e.preventDefault();
 					clearTimeout(stkGphx.scrollerInstance);
-					stkGphx.touchY0 = e.touches[0].clientY;
 					stkGphx.touchX0 = e.touches[0].clientX;
-					// console.log(stkGphx.unlock);
 					return stkGphx.unlockCheck(e);
 				});
 				$('body').bind('touchend', function(e){
 					// e.preventDefault();
 					clearTimeout(stkGphx.scrollerInstance);
-					stkGphx.touchY1 = e.originalEvent.changedTouches[0].clientY;
 					stkGphx.touchX1 = e.originalEvent.changedTouches[0].clientX;
-					if(Math.abs(stkGphx.touchX1 - stkGphx.touchX0) > 
-						Math.abs(stkGphx.touchY1 - stkGphx.touchY0)){
-						if(stkGphx.touchX1 < stkGphx.touchX0) {
-							stkGphx.headshotScroller(1);
-						} else {
-							stkGphx.headshotScroller(-1);
-						};
-					} else {
-						if(stkGphx.touchY1 < stkGphx.touchY0) {
-							stkGphx.headshotScroller(1);
-						} else {
-							stkGphx.headshotScroller(-1);
-						};						
+					if(stkGphx.touchX1 - stkGphx.touchX0 > 50) {
+						stkGphx.headshotScroller(1);
+					} else if(stkGphx.touchX1 - stkGphx.touchX0 < -50){
+						stkGphx.headshotScroller(0);
 					};
 					return stkGphx.unlockCheck(e);
 				});
@@ -122,29 +107,15 @@ var stkGphx = {
 					};
 					return stkGphx.unlockCheck(e);
 				});
-				$('body').bind('touchstart', function(e){
-					if(!stkGphx.touchY0) {
-						stkGphx.touchY0 = e.touches[0].clientY;
-					};
-				});
-				$('body').bind('touchend', function(e){		
-					if(!stkGphx.touchY0) {
-						stkGphx.touchY1 = e.originalEvent.changedTouches[0].clientY;
-						clearTimeout(stkGphx.scrollerInstance);					
-						if(stkGphx.touchY1 < stkGphx.touchY0) {
-							stkGphx.cityScroller(1);
-						} else {
-							stkGphx.cityScroller(-1);
-						};
-						return stkGphx.unlockCheck(e);
-					};
-				});
 			} else {
 				$('body').unbind();
 				stkGphx.unlock = true;
 			};
 			return false;
-		});		
+		});
+		$('.arrow').on('click', function(){
+			stkGphx.headshotScroller(Number($(this).data('dir')));
+		});
 		$('.cityOutline').on('click', function(){
 			stkGphx.populateNewCity($(this).data('city'));
 			return false;
@@ -167,7 +138,7 @@ var stkGphx = {
 			var pos = center.data('pos');
 			var newPos;
 			var domStats = $('.statNum');
-			if(direction == -1 && pos > 0){
+			if(direction == 0 && pos > 0){
 				newPos = pos - 1;
 				center.removeClass('center').addClass('right');
 				$('.slide--' + newPos).addClass('center').removeClass('left');
@@ -182,24 +153,6 @@ var stkGphx = {
 				for(var i = 0;i < domStats.length; i++){
 					stkGphx.charScrambler(stkGphx.stats[newPos][i], domStats[i].children, 0);
 				};
-			};
-			return stkGphx.unlock;
-		}, 200);
-		return false;
-	},
-	cityScroller: function(direction){
-		stkGphx.scrollerInstance = setTimeout(function(){
-			stkGphx.unlock = false;
-			var active = $('.activeCity');
-			var pos = active.data('city');
-			var newPos;
-			var domStats = $('.statNum');
-			if(direction == -1 && pos > 0){
-				stkGphx.populateNewCity(pos-1);
-			} else if(direction == 1 && pos < 5){
-				stkGphx.populateNewCity(pos+1);
-			} else {
-				stkGphx.unlock = true;
 			};
 			return stkGphx.unlock;
 		}, 200);
@@ -229,6 +182,24 @@ var stkGphx = {
 				$(dom[y]).text(chars.substring(y,y+1));
 			}
 		};
+		return false;
+	},
+	cityScroller: function(direction){
+		stkGphx.scrollerInstance = setTimeout(function(){
+			stkGphx.unlock = false;
+			var active = $('.activeCity');
+			var pos = active.data('city');
+			var newPos;
+			var domStats = $('.statNum');
+			if(direction == -1 && pos > 0){
+				stkGphx.populateNewCity(pos-1);
+			} else if(direction == 1 && pos < 5){
+				stkGphx.populateNewCity(pos+1);
+			} else {
+				stkGphx.unlock = true;
+			};
+			return stkGphx.unlock;
+		}, 200);
 		return false;
 	},
 	populateNewCity: function(cityNum) {
