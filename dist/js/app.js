@@ -2952,6 +2952,10 @@
 var stkGphx = {
     scrollerInstance: null,
     unlock: false,
+    touchY0: null,
+    touchY1: null,
+    touchX0: null,
+    touchX1: null,
     cityNames: [ [ "Baltimore", "300", "637", "0.47" ], [ "Milwaukee", "59", "300", "0.20" ], [ "Chicago", "360", "1,726", "0.21" ], [ "Los Angeles", "164", "802", "0.20" ], [ "New York", "234", "1,138", "0.21" ], [ "Washington, D.C.", "123", "299", "0.41" ] ],
     stats: [ [ "123", "234", "345", "456" ], [ "234", "345", "456", "567" ], [ "345", "456", "567", "678" ], [ "456", "567", "678", "789" ] ],
     allChars: [ "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" ],
@@ -2990,6 +2994,35 @@ var stkGphx = {
                     }
                     return stkGphx.unlockCheck(e);
                 });
+                $("body").bind("touchstart", function(e) {
+                    clearTimeout(stkGphx.scrollerInstance);
+                    stkGphx.touchY0 = e.touches[0].clientY;
+                    stkGphx.touchX0 = e.touches[0].clientX;
+                    return stkGphx.unlockCheck(e);
+                });
+                $("body").bind("touchend", function(e) {
+                    clearTimeout(stkGphx.scrollerInstance);
+                    stkGphx.touchY1 = e.originalEvent.changedTouches[0].clientY;
+                    stkGphx.touchX1 = e.originalEvent.changedTouches[0].clientX;
+                    if (Math.abs(stkGphx.touchX1 - stkGphx.touchX0) > Math.abs(stkGphx.touchY1 - stkGphx.touchY0)) {
+                        if (stkGphx.touchX1 < stkGphx.touchX0) {
+                            stkGphx.headshotScroller(1);
+                        } else {
+                            stkGphx.headshotScroller(-1);
+                        }
+                    } else {
+                        if (stkGphx.touchY1 < stkGphx.touchY0) {
+                            stkGphx.headshotScroller(1);
+                        } else {
+                            stkGphx.headshotScroller(-1);
+                        }
+                    }
+                    return stkGphx.unlockCheck(e);
+                });
+                $("body").bind("touchmove", function(e) {
+                    clearTimeout(stkGphx.scrollerInstance);
+                    return stkGphx.unlockCheck(e);
+                });
             } else if (stkGphx.isScrolledIntoView(".stkCities")) {
                 $("body").bind("DOMMouseScroll", function(e) {
                     clearTimeout(stkGphx.scrollerInstance);
@@ -3018,6 +3051,23 @@ var stkGphx = {
                     }
                     return stkGphx.unlockCheck(e);
                 });
+                $("body").bind("touchstart", function(e) {
+                    if (!stkGphx.touchY0) {
+                        stkGphx.touchY0 = e.touches[0].clientY;
+                    }
+                });
+                $("body").bind("touchend", function(e) {
+                    if (!stkGphx.touchY0) {
+                        stkGphx.touchY1 = e.originalEvent.changedTouches[0].clientY;
+                        clearTimeout(stkGphx.scrollerInstance);
+                        if (stkGphx.touchY1 < stkGphx.touchY0) {
+                            stkGphx.cityScroller(1);
+                        } else {
+                            stkGphx.cityScroller(-1);
+                        }
+                        return stkGphx.unlockCheck(e);
+                    }
+                });
             } else {
                 $("body").unbind();
                 stkGphx.unlock = true;
@@ -3039,11 +3089,11 @@ var stkGphx = {
     },
     headshotScroller: function(direction) {
         stkGphx.scrollerInstance = setTimeout(function() {
+            stkGphx.unlock = false;
             var center = $(".center");
             var pos = center.data("pos");
             var newPos;
             var domStats = $(".statNum");
-            stkGphx.unlock = false;
             if (direction == -1 && pos > 0) {
                 newPos = pos - 1;
                 center.removeClass("center").addClass("right");
@@ -3066,11 +3116,11 @@ var stkGphx = {
     },
     cityScroller: function(direction) {
         stkGphx.scrollerInstance = setTimeout(function() {
+            stkGphx.unlock = false;
             var active = $(".activeCity");
             var pos = active.data("city");
             var newPos;
             var domStats = $(".statNum");
-            stkGphx.unlock = false;
             if (direction == -1 && pos > 0) {
                 stkGphx.populateNewCity(pos - 1);
             } else if (direction == 1 && pos < 5) {
