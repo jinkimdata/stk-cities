@@ -77,36 +77,36 @@ var stkGphx = {
 					clearTimeout(stkGphx.scrollerInstance);
 					return stkGphx.unlockCheck(e);
 				});
-			} else if(stkGphx.isScrolledIntoView('.stkCities')){
-				// Firefox
-				$('body').bind('DOMMouseScroll', function(e){
-					clearTimeout(stkGphx.scrollerInstance);
-					if(e.originalEvent.detail > 0) {
-						stkGphx.cityScroller(1);
-					} else {
-						stkGphx.cityScroller(-1);
-					};
-					return stkGphx.unlockCheck(e);
-				});
-				//IE, Opera, Safari
-				$('body').bind('mousewheel', function(e){
-					clearTimeout(stkGphx.scrollerInstance);
-					if(e.originalEvent.wheelDelta < 0) {
-						stkGphx.cityScroller(1);
-					} else {
-						stkGphx.cityScroller(-1);
-					};
-					return stkGphx.unlockCheck(e);
-				});
-				$('body').bind('keydown', function(e){
-					clearTimeout(stkGphx.scrollerInstance);
-					if(e.keyCode == 40) {
-						stkGphx.cityScroller(1);
-					} else if(e.keyCode == 38) {
-						stkGphx.cityScroller(-1);
-					};
-					return stkGphx.unlockCheck(e);
-				});
+			// } else if(stkGphx.isScrolledIntoView('.stkCities')){
+			// 	// Firefox
+			// 	$('body').bind('DOMMouseScroll', function(e){
+			// 		clearTimeout(stkGphx.scrollerInstance);
+			// 		if(e.originalEvent.detail > 0) {
+			// 			stkGphx.cityScroller(1);
+			// 		} else {
+			// 			stkGphx.cityScroller(-1);
+			// 		};
+			// 		return stkGphx.unlockCheck(e);
+			// 	});
+			// 	//IE, Opera, Safari
+			// 	$('body').bind('mousewheel', function(e){
+			// 		clearTimeout(stkGphx.scrollerInstance);
+			// 		if(e.originalEvent.wheelDelta < 0) {
+			// 			stkGphx.cityScroller(1);
+			// 		} else {
+			// 			stkGphx.cityScroller(-1);
+			// 		};
+			// 		return stkGphx.unlockCheck(e);
+			// 	});
+			// 	$('body').bind('keydown', function(e){
+			// 		clearTimeout(stkGphx.scrollerInstance);
+			// 		if(e.keyCode == 40) {
+			// 			stkGphx.cityScroller(1);
+			// 		} else if(e.keyCode == 38) {
+			// 			stkGphx.cityScroller(-1);
+			// 		};
+			// 		return stkGphx.unlockCheck(e);
+			// 	});
 			} else {
 				$('body').unbind();
 				stkGphx.unlock = true;
@@ -120,6 +120,7 @@ var stkGphx = {
 			stkGphx.populateNewCity($(this).data('city'));
 			return false;
 		});
+		stkGphx.scrollSnap('.stkCities .cities','.cityOutline');
 	},
 	// isScrolledIntoView takes an element name as an argument and compares it to the positions
 	// of the window to see if the element is within view.
@@ -201,6 +202,62 @@ var stkGphx = {
 			return stkGphx.unlock;
 		}, 200);
 		return false;
+	},	
+	scrollSnap: function(scrollDivClass, childDivClass) {
+		var scrollDiv = $(scrollDivClass);
+		var childDivs = $(childDivClass);
+		var childDivWidth = $(childDivs[0]).width();
+		var animating = false;
+		var currDiv, newDiv, currDivPos, newDivPos, divNum;
+		// On window resize, the childDivWidth is recalculated. This is a potentially wasteful and 
+		// unnecessary function that I may phase out in the future. It is a soft patch for now.
+		var resizeId;
+		$(window).resize(function(){
+			clearTimeout(resizeId);
+			resizeId = setTimeout(doneResizing, 500);
+		});
+		function doneResizing() {
+			childDivWidth = $(childDivs[0]).width();
+		};
+		// The on scroll function is set on a timeout to help reduce site load.
+		scrollDiv.on('scroll', function(){
+			clearTimeout($.data(this, 'scrollTimer'));
+			if (!animating) {
+				$.data(this, 'scrollTimer', setTimeout(function() {
+					divNum = Math.round(scrollDiv.scrollTop() / childDivWidth);
+					scrollBehavior();
+					return false;
+				}, 200));
+			};
+			return false;
+		});
+		// The on click function will actually trigger the on scroll function above because it will
+		// scroll the parent div. This isn't ideal, but the clearTimeout and animating boolean 
+		// ensures that the heavy lifting isn't done on the scroll function -- 
+		// multiple instances of the scrollBehavior will not run.
+		childDivs.on('click', function(){
+			if (!animating) {
+				divNum = $(this).data('city');
+				scrollBehavior();
+				return false;
+			};		
+			return false;
+		});
+		// The scroll behavior is broken out into a helper function to reduce bloat.
+		// Code itself is fairly self-explanatory.
+		function scrollBehavior(){
+			if(divNum > 5){
+				divNum = 5;
+			};
+			animating = true;
+			scrollDiv.animate({
+				scrollTop: divNum * childDivWidth + 'px'
+			}, 250);
+			setTimeout(function() { animating = false; }, 300);
+			// On scroll end, we populate with new data from the current div.
+			stkGphx.populateNewCity(divNum);
+			return false;
+		};
 	},
 	populateNewCity: function(cityNum) {
 		var currCity = $('.cityOutline--'+cityNum);

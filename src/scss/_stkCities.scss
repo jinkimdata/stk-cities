@@ -40,7 +40,7 @@ $cubeSize: 12.5%; // Size of city outline divs
 	}
 	.cities {
 		position: relative;
-		overflow: hidden;
+		overflow-y: scroll;
 		z-index: 1;
 		height: 25em;
 		padding-right: 20px;
@@ -81,13 +81,12 @@ $cubeSize: 12.5%; // Size of city outline divs
 	}
 	.cityNameBlock {
 		position: absolute;
-		top: $cubeSize * 2;
+		top: 0;
 		width: 100%;
 		height: 0;
 		padding-top: $cubeSize / 2;
 		padding-bottom: $cubeSize / 2;
 		padding-left: $cubeSize + 3%;
-		border-top: .1em solid $stkLightGray;
 		border-bottom: .1em solid $stkLightGray;
 	}
 	.cityName {
@@ -98,15 +97,17 @@ $cubeSize: 12.5%; // Size of city outline divs
 		font-size: 3.5em;
 		@media(max-width: $bp5) {
 			font-size: 2.5em;
+			// text-align: center;
 		}
 	}
 	.cityStats {
 		position: absolute;
-		top: $cubeSize * 2;
+		top: 0;
 		width: 100%;
 		padding-top: $cubeSize;
 		padding-left: $cubeSize + 1%;
 		padding-right: 3%;
+		// text-align: center;
 		p {
 	 		font-family: $franklin;
 			font-weight: 700;
@@ -141,6 +142,7 @@ $cubeSize: 12.5%; // Size of city outline divs
 		font-family: $franklin;
 		font-weight: 700;
 		font-size: 1.7em;
+		// text-align: center;
 		text-transform: uppercase;
 	}
 }

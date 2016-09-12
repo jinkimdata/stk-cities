@@ -3011,34 +3011,6 @@ var stkGphx = {
                     clearTimeout(stkGphx.scrollerInstance);
                     return stkGphx.unlockCheck(e);
                 });
-            } else if (stkGphx.isScrolledIntoView(".stkCities")) {
-                $("body").bind("DOMMouseScroll", function(e) {
-                    clearTimeout(stkGphx.scrollerInstance);
-                    if (e.originalEvent.detail > 0) {
-                        stkGphx.cityScroller(1);
-                    } else {
-                        stkGphx.cityScroller(-1);
-                    }
-                    return stkGphx.unlockCheck(e);
-                });
-                $("body").bind("mousewheel", function(e) {
-                    clearTimeout(stkGphx.scrollerInstance);
-                    if (e.originalEvent.wheelDelta < 0) {
-                        stkGphx.cityScroller(1);
-                    } else {
-                        stkGphx.cityScroller(-1);
-                    }
-                    return stkGphx.unlockCheck(e);
-                });
-                $("body").bind("keydown", function(e) {
-                    clearTimeout(stkGphx.scrollerInstance);
-                    if (e.keyCode == 40) {
-                        stkGphx.cityScroller(1);
-                    } else if (e.keyCode == 38) {
-                        stkGphx.cityScroller(-1);
-                    }
-                    return stkGphx.unlockCheck(e);
-                });
             } else {
                 $("body").unbind();
                 stkGphx.unlock = true;
@@ -3052,6 +3024,7 @@ var stkGphx = {
             stkGphx.populateNewCity($(this).data("city"));
             return false;
         });
+        stkGphx.scrollSnap(".stkCities .cities", ".cityOutline");
     },
     isScrolledIntoView: function(elem) {
         var docViewTop = $(window).scrollTop();
@@ -3130,6 +3103,54 @@ var stkGphx = {
             return stkGphx.unlock;
         }, 200);
         return false;
+    },
+    scrollSnap: function(scrollDivClass, childDivClass) {
+        var scrollDiv = $(scrollDivClass);
+        var childDivs = $(childDivClass);
+        var childDivWidth = $(childDivs[0]).width();
+        var animating = false;
+        var currDiv, newDiv, currDivPos, newDivPos, divNum;
+        var resizeId;
+        $(window).resize(function() {
+            clearTimeout(resizeId);
+            resizeId = setTimeout(doneResizing, 500);
+        });
+        function doneResizing() {
+            childDivWidth = $(childDivs[0]).width();
+        }
+        scrollDiv.on("scroll", function() {
+            clearTimeout($.data(this, "scrollTimer"));
+            if (!animating) {
+                $.data(this, "scrollTimer", setTimeout(function() {
+                    divNum = Math.round(scrollDiv.scrollTop() / childDivWidth);
+                    scrollBehavior();
+                    return false;
+                }, 200));
+            }
+            return false;
+        });
+        childDivs.on("click", function() {
+            if (!animating) {
+                divNum = $(this).data("city");
+                scrollBehavior();
+                return false;
+            }
+            return false;
+        });
+        function scrollBehavior() {
+            if (divNum > 5) {
+                divNum = 5;
+            }
+            animating = true;
+            scrollDiv.animate({
+                scrollTop: divNum * childDivWidth + "px"
+            }, 250);
+            setTimeout(function() {
+                animating = false;
+            }, 300);
+            stkGphx.populateNewCity(divNum);
+            return false;
+        }
     },
     populateNewCity: function(cityNum) {
         var currCity = $(".cityOutline--" + cityNum);
